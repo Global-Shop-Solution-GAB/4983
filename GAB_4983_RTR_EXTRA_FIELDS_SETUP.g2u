@@ -1,0 +1,729 @@
+Program.Sub.ScreenSU.Start
+Gui.F_Setup..Create
+Gui.F_Setup..Caption("Router Extra Fields Setup [APAC]")
+Gui.F_Setup..Size(12390,10440)
+Gui.F_Setup..MinX(0)
+Gui.F_Setup..MinY(0)
+Gui.F_Setup..Position(0,0)
+Gui.F_Setup..FontSize(9)
+Gui.F_Setup..BackColor(-2147483633)
+Gui.F_Setup..MousePointer(0)
+Gui.F_Setup..Event(UnLoad,Unload)
+Gui.F_Setup.tab1.Create(Tab)
+Gui.F_Setup.tab1.Size(11970,9705)
+Gui.F_Setup.tab1.Position(105,105)
+Gui.F_Setup.tab1.FontSize(9)
+Gui.F_Setup.tab1.Tabs(6)
+Gui.F_Setup.tab1.SetTab(0)
+Gui.F_Setup.tab1.Caption("Flow")
+Gui.F_Setup.tab1.SetTab(1)
+Gui.F_Setup.tab1.Caption("Operation")
+Gui.F_Setup.tab1.SetTab(2)
+Gui.F_Setup.tab1.Caption("Recipe")
+Gui.F_Setup.tab1.SetTab(3)
+Gui.F_Setup.tab1.Caption("Flow & Operation")
+Gui.F_Setup.tab1.SetTab(4)
+Gui.F_Setup.tab1.Caption("Operation & Tools")
+Gui.F_Setup.tab1.SetTab(5)
+Gui.F_Setup.tab1.Caption("Tools & Recipe")
+Gui.F_Setup.GsGCFlow.Create(GsGridControl)
+Gui.F_Setup.GsGCFlow.Size(11670,9165)
+Gui.F_Setup.GsGCFlow.Position(75,90)
+Gui.F_Setup.GsGCFlow.Parent("tab1",0)
+Gui.F_Setup.GsGCFlow.Event(CellValueChanged,GsGCFlow_CellValueChanged)
+Gui.F_Setup.GsGCFlow.Event(RowCellClick,GsGCFlow_RowCellClick)
+Gui.F_Setup.GsGCOperation.Create(GsGridControl)
+Gui.F_Setup.GsGCOperation.Size(11670,9165)
+Gui.F_Setup.GsGCOperation.Position(75,90)
+Gui.F_Setup.GsGCOperation.Parent("tab1",1)
+Gui.F_Setup.GsGCOperation.Event(CellValueChanged,GsGCOperation_CellValueChanged)
+Gui.F_Setup.GsGCOperation.Event(RowCellClick,GsGCOperation_RowCellClick)
+Gui.F_Setup.GsGCRecipe.Create(GsGridControl)
+Gui.F_Setup.GsGCRecipe.Size(11670,9165)
+Gui.F_Setup.GsGCRecipe.Position(75,90)
+Gui.F_Setup.GsGCRecipe.Parent("tab1",2)
+Gui.F_Setup.GsGCRecipe.Event(CellValueChanged,GsGCRecipe_CellValueChanged)
+Gui.F_Setup.GsGCRecipe.Event(RowCellClick,GsGCRecipe_RowCellClick)
+Gui.F_Setup.GsGCTR.Create(GsGridControl)
+Gui.F_Setup.GsGCTR.Size(11670,9165)
+Gui.F_Setup.GsGCTR.Position(75,90)
+Gui.F_Setup.GsGCTR.Parent("tab1",5)
+Gui.F_Setup.GsGCTR.Event(RowCellClick,GsGCTR_RowCellClick)
+Gui.F_Setup.GsGCTR.Event(CellValueChanged,GsGCTR_CellValueChanged)
+Gui.F_Setup.GsGCFO.Create(GsGridControl)
+Gui.F_Setup.GsGCFO.Size(11670,9165)
+Gui.F_Setup.GsGCFO.Position(75,90)
+Gui.F_Setup.GsGCFO.Parent("tab1",3)
+Gui.F_Setup.GsGCFO.Event(RowCellClick,GsGCFO_RowCellClick)
+Gui.F_Setup.GsGCOT.Create(GsGridControl)
+Gui.F_Setup.GsGCOT.Size(11670,9165)
+Gui.F_Setup.GsGCOT.Position(75,90)
+Gui.F_Setup.GsGCOT.Parent("tab1",4)
+Gui.F_Setup.GsGCOT.Event(RowCellClick,GsGCOT_RowCellClick)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+V.Local.sIcon.Declare
+
+F.odbc.Connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+F.Intrinsic.String.Build("{0}\ART\gss2.ico",V.Caller.GlobalDir,V.Local.sIcon)
+Gui.F_Setup..Icon(V.Local.sIcon)
+
+Gui.F_Setup.GsGCFlow.Anchor(15)
+Gui.F_Setup.GsGCOperation.Anchor(15)
+Gui.F_Setup.GsGCRecipe.Anchor(15)
+Gui.F_Setup.GsGCFO.Anchor(15)
+Gui.F_Setup.GsGCOT.Anchor(15)
+Gui.F_Setup.GsGCTR.Anchor(15)
+Gui.F_Setup.tab1.Anchor(15)
+Gui.F_Setup.tab1.SetTab(0)
+F.Intrinsic.Control.CallSub(loadscreen)
+F.Intrinsic.Control.CallSub(setcontextmenu)
+
+Gui.F_Setup..Show
+
+Program.Sub.Main.End
+
+Program.Sub.Unload.Start
+F.Data.DataTable.Close("dtFlow")
+F.Data.DataTable.Close("dtOperation")
+F.Data.DataTable.Close("dtRecipe")
+F.Data.DataView.Close("dtWC","dvWC")
+F.Data.DataView.Close("dtWC$dtRecipe","dvRecipe")
+F.Data.DataTable.Close("dtWC$dtRecipe")
+F.Data.DataTable.Close("dtWC")
+
+F.ODBC.Connection!conx.Close
+F.Intrinsic.Control.End
+
+Program.Sub.Unload.End
+
+Program.Sub.LoadScreen.Start
+V.Local.iID.Declare
+'Flow
+F.Data.DataTable.CreateFromSQL("dtFlow","conx","select id as ID, flow as Flow, flow as Previous from GAB_4983_RTR_FLOW order by id",True)
+'No flow has been setup previously
+F.Intrinsic.Control.If(V.DataTable.dtFlow.RowCount,=,0)
+	F.Data.DataTable.AddRow("dtFlow","ID",1,"Flow","","Previous","")
+'There is a flow setup previously
+F.Intrinsic.Control.Else
+	F.Intrinsic.Math.Add(V.DataTable.dtFlow(V.DataTable.dtFlow.RowCount--).ID!FieldVal,1,V.Local.iID)
+	F.Data.DataTable.AddRow("dtFlow","ID",V.Local.iID,"Flow","","Previous","")
+F.Intrinsic.Control.EndIf
+
+F.Data.DataTable.AddColumn("dtFlow","Delete","Long",0)
+
+Gui.F_Setup.GsGCFlow.AddGridviewFromDatatable("gvFlow","dtFlow")
+Gui.F_Setup.GsGCFlow.MainView("gvFlow")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Previous","Visible",False)
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","ID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Flow","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","ID","CellHAlignment","Center")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Flow","AllowEdit",True)
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Flow","ReadOnly",False)
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","ID","MinWidth","60")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Flow","MinWidth","200")
+Gui.F_Setup.GsGCFlow.SetColumnProperty("gvFlow","Delete","MinWidth","100")
+Gui.F_Setup.GsGCFlow.ColumnEdit("gvFlow","Delete","EditorButton","Delete")
+
+'Operation
+F.Data.DataTable.CreateFromSQL("dtOperation","conx","select id as ID, operation as Operation, inspection as Inspection, operation as Previous from GAB_4983_RTR_OP order by id",True)
+'No operation has been setup previously
+F.Intrinsic.Control.If(V.DataTable.dtOperation.RowCount,=,0)
+	F.Data.DataTable.AddRow("dtOperation","ID",1,"Operation","","Previous","")
+'There is an operation setup previously
+F.Intrinsic.Control.Else
+	F.Intrinsic.Math.Add(V.DataTable.dtOperation(V.DataTable.dtOperation.RowCount--).ID!FieldVal,1,V.Local.iID)
+	F.Data.DataTable.AddRow("dtOperation","ID",V.Local.iID,"Operation","","Previous","")
+F.Intrinsic.Control.EndIf
+
+F.Data.DataTable.AddColumn("dtOperation","Delete","Long",0)
+
+Gui.F_Setup.GsGCOperation.AddGridviewFromDatatable("gvOp","dtOperation")
+Gui.F_Setup.GsGCOperation.MainView("gvOp")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Previous","Visible",False)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","ID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Operation","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Inspection","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","ID","CellHAlignment","Center")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Operation","AllowEdit",True)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Operation","ReadOnly",False)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Inspection","AllowEdit",True)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Inspection","ReadOnly",False)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","ID","MinWidth","60")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Operation","MinWidth","200")
+Gui.F_Setup.GsGCOperation.SetColumnProperty("gvOp","Delete","MinWidth","100")
+Gui.F_Setup.GsGCOperation.ColumnEdit("gvOp","Delete","EditorButton","Delete")
+
+'Recipe
+F.Data.DataTable.CreateFromSQL("dtRecipe","conx","select id as ID, recipe as Recipe, recipe as Previous from GAB_4983_RTR_RECIPE order by id",True)
+'No recipe has been setup previously
+F.Intrinsic.Control.If(V.DataTable.dtRecipe.RowCount,=,0)
+	F.Data.DataTable.AddRow("dtRecipe","ID",1,"Recipe","","Previous","")
+'There is a flow setup previously
+F.Intrinsic.Control.Else
+	F.Intrinsic.Math.Add(V.DataTable.dtRecipe(V.DataTable.dtRecipe.RowCount--).ID!FieldVal,1,V.Local.iID)
+	F.Data.DataTable.AddRow("dtRecipe","ID",V.Local.iID,"Recipe","","Previous","")
+F.Intrinsic.Control.EndIf
+
+F.Data.DataTable.AddColumn("dtRecipe","Delete","Long",0)
+
+Gui.F_Setup.GsGCRecipe.AddGridviewFromDatatable("gvRecipe","dtRecipe")
+Gui.F_Setup.GsGCRecipe.MainView("gvRecipe")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Previous","Visible",False)
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","ID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Recipe","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","ID","CellHAlignment","Center")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Recipe","AllowEdit",True)
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Recipe","ReadOnly",False)
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","ID","MinWidth","60")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Recipe","MinWidth","200")
+Gui.F_Setup.GsGCRecipe.SetColumnProperty("gvRecipe","Delete","MinWidth","100")
+Gui.F_Setup.GsGCRecipe.ColumnEdit("gvRecipe","Delete","EditorButton","Delete")
+
+'Load flow and operation relationship
+F.Data.DataTable.CreateFromSQL("dtF","conx","select id as ID, flow as Flow from GAB_4983_RTR_FLOW order by id",True)
+F.Data.DataTable.AddColumn("dtF","Add","Long")
+F.Data.DataTable.CreateFromSQL("dtF$dtOp1","conx","select Flow as FLowID, ' ' as Operation, operation as OperationID from GAB_4983_RTR_FLOW_OP order by flow,operation",True)
+F.Data.DataTable.AddColumn("dtF$dtOp1","Delete","Long")
+F.Data.Dictionary.CreateFromSQL("dicOp","conx","select id, recipe from GAB_4983_RTR_RECIPE")
+F.Data.Dictionary.SetDefaultReturn("dicOp","")
+F.Data.DataTable.FillFromDictionary("dtF$dtOp1","dicOp","OperationID","Operation")
+F.Data.Dictionary.Close("dicOp")
+
+F.Data.DataTable.AddRelation("dtF","ID","dtF$dtOp1","FLowID")
+F.Data.DataView.Create("dtF","dvF")
+F.Data.DataView.Create("dtF$dtOp1","dvFO")
+
+Gui.F_Setup.GsGCFO.AddGridviewFromDataview("gvF","dtF","dvF")
+Gui.F_Setup.GsGCFO.AddGridviewFromDataview("gvFO","dtF","dvFO")
+Gui.F_Setup.GsGCFO.MainView("gvF")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","FlowID","Visible",False)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","OperationID","Visible",False)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCFO.ColumnEdit("gvFO","Delete","EditorButton","Delete")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Add","ShowCaption",False)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Add","AllowEdit",False)
+Gui.F_Setup.GsGCFO.ColumnEdit("gvF","Add","EditorButton","Add")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","ID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Flow","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","ID","CellHAlignment","Center")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","ID","HeaderFontBold",True)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Flow","HeaderFontBold",True)
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","ID","MinWidth","60")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Flow","MinWidth","200")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvF","Add","MinWidth","80")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","Operation","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","Operation","MinWidth","200")
+Gui.F_Setup.GsGCFO.SetColumnProperty("gvFO","Delete","MinWidth","80")
+
+'Load operation and workcenter relationship
+F.Data.DataTable.CreateFromSQL("dtO","conx","select id as ID, operation as Operation from GAB_4983_RTR_OP order by id",True)
+F.Data.DataTable.AddColumn("dtO","Add","Long")
+F.Data.DataTable.CreateFromSQL("dtO$dtT","conx","select Operation as OperationID, ' ' as Tools, machine as ToolID from GAB_4983_RTR_OP_WC order by operation,machine",True)
+F.Data.DataTable.AddColumn("dtO$dtT","Delete","Long")
+F.Data.Dictionary.CreateFromSQL("dicWC","conx","select machine as ToolID, wc_name as Tools from workcenters")
+F.Data.Dictionary.SetDefaultReturn("dicWC","")
+F.Data.DataTable.FillFromDictionary("dtO$dtT","dicWC","ToolID","Tools")
+F.Data.Dictionary.Close("dicWC")
+
+F.Data.DataTable.AddRelation("dtO","ID","dtO$dtT","OperationID")
+F.Data.DataView.Create("dtO","dvO")
+F.Data.DataView.Create("dtO$dtT","dvOT")
+
+Gui.F_Setup.GsGCOT.AddGridviewFromDataview("gvO","dtO","dvO")
+Gui.F_Setup.GsGCOT.AddGridviewFromDataview("gvOT","dtO","dvOT")
+Gui.F_Setup.GsGCOT.MainView("gvO")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","OperationID","Visible",False)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","ToolID","Visible",False)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCOT.ColumnEdit("gvOT","Delete","EditorButton","Delete")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Add","ShowCaption",False)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Add","AllowEdit",False)
+Gui.F_Setup.GsGCOT.ColumnEdit("gvO","Add","EditorButton","Add")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","ID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Operation","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","ID","CellHAlignment","Center")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","ID","HeaderFontBold",True)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Operation","HeaderFontBold",True)
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","ID","MinWidth","60")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Operation","MinWidth","200")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvO","Add","MinWidth","80")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","Tools","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","Tools","MinWidth","170")
+Gui.F_Setup.GsGCOT.SetColumnProperty("gvOT","Delete","MinWidth","80")
+
+'Load workcenter & recipe relationship
+F.Data.DataTable.CreateFromSQL("dtWC","conx","select machine as ToolID, wc_name as Tools from workcenters order by machine",True)
+F.Data.DataTable.AddColumn("dtWC","Add","Long")
+F.Data.DataTable.CreateFromSQL("dtWC$dtRecipe","conx","select machine as ToolID, ' ' as Recipe, recipe as RecipeID, Cost as Cost, Runtime as Runtime from GAB_4983_RTR_WC_RCP order by machine, recipe",True)
+F.Data.DataTable.AddColumn("dtWC$dtRecipe","Delete","Long")
+F.Data.Dictionary.CreateFromSQL("dicRec","conx","select id, recipe from GAB_4983_RTR_RECIPE")
+F.Data.Dictionary.SetDefaultReturn("dicRec","")
+F.Data.DataTable.FillFromDictionary("dtWC$dtRecipe","dicRec","RecipeID","Recipe")
+F.Data.Dictionary.Close("dicRec")
+
+F.Data.DataTable.AddRelation("dtWC","ToolID","dtWC$dtRecipe","ToolID")
+F.Data.DataView.Create("dtWC","dvWC")
+F.Data.DataView.Create("dtWC$dtRecipe","dvRecipe")
+
+Gui.F_Setup.GsGCTR.AddGridviewFromDataview("gvWC","dtWC","dvWC")
+Gui.F_Setup.GsGCTR.AddGridviewFromDataview("gvRec","dtWC","dvRecipe")
+Gui.F_Setup.GsGCTR.MainView("gvWC")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","ToolID","Visible",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","RecipeID","Visible",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Delete","ShowCaption",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Delete","AllowEdit",False)
+Gui.F_Setup.GsGCTR.ColumnEdit("gvRec","Delete","EditorButton","Delete")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Add","ShowCaption",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Add","AllowEdit",False)
+Gui.F_Setup.GsGCTR.ColumnEdit("gvWC","Add","EditorButton","Add")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","ToolID","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Tools","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","ToolID","CellHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","ToolID","HeaderFontBold",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Tools","HeaderFontBold",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","ToolID","Caption","Tool ID")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","ToolID","MinWidth","70")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Tools","MinWidth","170")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvWC","Add","MinWidth","80")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Recipe","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Runtime","HeaderHAlignment","Center")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Recipe","MinWidth","150")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","MinWidth","80")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Runtime","MinWidth","80")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Delete","MinWidth","80")
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Recipe","CellBackColor",V.Color.LtGray)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Recipe","HeaderFontBold",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","HeaderFontBold",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Runtime","HeaderFontBold",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","ReadOnly",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Runtime","ReadOnly",False)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","AllowEdit",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Runtime","AllowEdit",True)
+Gui.F_Setup.GsGCTR.SetColumnProperty("gvRec","Cost","DisplayCustomNumeric","#,###,##0.00")
+Program.Sub.LoadScreen.End
+
+Program.Sub.GsGCFlow_CellValueChanged.Start
+V.Local.iID.Declare
+V.Local.sAfter.Declare
+V.Local.sBefore.Declare
+V.Local.sSQL.Declare
+V.Local.sValue.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Flow")
+	V.Local.sValue.Set(V.Args.Value)
+	F.Intrinsic.Control.If(V.Local.sValue.Trim,<>,"")
+		F.Intrinsic.String.LCase(V.Local.sValue.Trim,V.Local.sAfter)
+		F.Intrinsic.String.LCase(V.DataTable.dtFlow(V.Args.RowIndex).Previous!FieldValTrim,V.Local.sBefore)
+		'Check if before is different from after
+		F.Intrinsic.Control.If(V.Local.sAfter,<>,V.Local.sBefore)
+			'New entry
+			F.Intrinsic.Control.If(V.Local.sBefore.Trim,=,"")
+				F.Intrinsic.String.Build("insert into GAB_4983_RTR_FLOW(id,flow) values({0},'{1}');",V.DataTable.dtFlow(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.sSQL)
+				F.Intrinsic.Math.Add(V.DataTable.dtFlow(V.DataTable.dtFlow.RowCount--).ID!FieldVal,1,V.Local.iID)
+				F.Data.DataTable.AddRow("dtFlow","ID",V.Local.iID,"Flow","","Previous","")
+			'Updated entry
+			F.Intrinsic.Control.Else
+				F.Intrinsic.String.Build("update GAB_4983_RTR_FLOW set flow = '{1}' where id = {0}",V.DataTable.dtFlow(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.sSQL)
+				
+			F.Intrinsic.Control.EndIf
+			F.Data.DataTable.SetValue("dtFlow",V.Args.RowIndex,"Previous",V.Local.sValue.Trim)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCFlow_CellValueChanged.End
+
+Program.Sub.GsGCOperation_CellValueChanged.Start
+V.Local.bExist.Declare
+V.Local.iID.Declare
+V.Local.iInspect.Declare
+V.Local.sAfter.Declare
+V.Local.sBefore.Declare
+V.Local.sSQL.Declare
+V.Local.sValue.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Operation")
+	V.Local.sValue.Set(V.Args.Value)
+	F.Intrinsic.Control.If(V.Local.sValue.Trim,<>,"")
+		F.Intrinsic.String.LCase(V.Local.sValue.Trim,V.Local.sAfter)
+		F.Intrinsic.String.LCase(V.DataTable.dtOperation(V.Args.RowIndex).Previous!FieldValTrim,V.Local.sBefore)
+		'Check if before is different from after
+		F.Intrinsic.Control.If(V.Local.sAfter,<>,V.Local.sBefore)
+			F.Intrinsic.Control.If(V.DataTable.dtOperation(V.Args.RowIndex).Inspection!FieldVal,=,True)
+				V.Local.iInspect.Set(1)
+			F.Intrinsic.Control.Else
+				V.Local.iInspect.Set(0)
+			F.Intrinsic.Control.EndIf
+			'New entry
+			F.Intrinsic.Control.If(V.Local.sBefore.Trim,=,"")
+				F.Intrinsic.String.Build("insert into GAB_4983_RTR_OP(id,operation,inspection) values({0},'{1}',{2});",V.DataTable.dtOperation(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.UCase,V.Local.iInspect,V.Local.sSQL)
+				F.Intrinsic.Math.Add(V.DataTable.dtOperation(V.DataTable.dtOperation.RowCount--).ID!FieldVal,1,V.Local.iID)
+				F.Data.DataTable.AddRow("dtOperation","ID",V.Local.iID,"Operation","","Previous","")
+			'Updated entry
+			F.Intrinsic.Control.Else
+				F.Intrinsic.String.Build("update GAB_4983_RTR_OP set operation = '{1}', inspection = {2} where id = {0}",V.DataTable.dtOperation(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.iInspect,V.Local.sSQL)
+				
+			F.Intrinsic.Control.EndIf
+			F.Data.DataTable.SetValue("dtOperation",V.Args.RowIndex,"Previous",V.Local.sValue.Trim)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ElseIf(V.Args.Column,=,"Inspection")
+	F.Intrinsic.Control.If(V.DataTable.dtOperation(V.Args.RowIndex).Operation!FieldValTrim,<>,"")
+		F.Intrinsic.Control.If(V.Args.Value,=,True)
+			V.Local.iInspect.Set(1)
+		F.Intrinsic.Control.Else
+			V.Local.iInspect.Set(0)
+		F.Intrinsic.Control.EndIf
+		F.Intrinsic.String.Build("update GAB_4983_RTR_OP set inspection = {2} where id = {0}",V.DataTable.dtOperation(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.iInspect,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCOperation_CellValueChanged.End
+
+Program.Sub.GsGCRecipe_CellValueChanged.Start
+V.Local.iID.Declare
+V.Local.sAfter.Declare
+V.Local.sBefore.Declare
+V.Local.sSQL.Declare
+V.Local.sValue.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Recipe")
+	V.Local.sValue.Set(V.Args.Value)
+	F.Intrinsic.Control.If(V.Local.sValue.Trim,<>,"")
+		F.Intrinsic.String.LCase(V.Local.sValue.Trim,V.Local.sAfter)
+		F.Intrinsic.String.LCase(V.DataTable.dtRecipe(V.Args.RowIndex).Previous!FieldValTrim,V.Local.sBefore)
+		'Check if before is different from after
+		F.Intrinsic.Control.If(V.Local.sAfter,<>,V.Local.sBefore)
+			'New entry
+			F.Intrinsic.Control.If(V.Local.sBefore.Trim,=,"")
+				F.Intrinsic.String.Build("insert into GAB_4983_RTR_RECIPE(id,recipe) values({0},'{1}');",V.DataTable.dtRecipe(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.sSQL)
+				F.Intrinsic.Math.Add(V.DataTable.dtRecipe(V.DataTable.dtRecipe.RowCount--).ID!FieldVal,1,V.Local.iID)
+				F.Data.DataTable.AddRow("dtRecipe","ID",V.Local.iID,"Recipe","","Previous","")
+			'Updated entry
+			F.Intrinsic.Control.Else
+				F.Intrinsic.String.Build("update GAB_4983_RTR_RECIPE set recipe = '{1}' where id = {0}",V.DataTable.dtRecipe(V.Args.RowIndex).ID!FieldValLong,V.Local.sValue.Trim,V.Local.sSQL)
+				
+			F.Intrinsic.Control.EndIf
+			F.Data.DataTable.SetValue("dtRecipe",V.Args.RowIndex,"Previous",V.Local.sValue.Trim)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCRecipe_CellValueChanged.End
+
+Program.Sub.GsGCFlow_RowCellClick.Start
+V.Local.sSQL.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Delete")
+	F.Intrinsic.Control.If(V.DataTable.dtFlow(V.Args.RowIndex).Previous!FieldValTrim,<>,"")
+		F.Intrinsic.String.Build("delete from GAB_4983_RTR_FLOW where id = {0}",V.DataTable.dtFlow(V.Args.RowIndex).ID!FieldValLong,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Data.DataTable.DeleteRow("dtFlow",V.Args.RowIndex)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCFlow_RowCellClick.End
+
+Program.Sub.GsGCOperation_RowCellClick.Start
+V.Local.sSQL.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Delete")
+	F.Intrinsic.Control.If(V.DataTable.dtOperation(V.Args.RowIndex).Previous!FieldValTrim,<>,"")
+		F.Intrinsic.String.Build("delete from GAB_4983_RTR_OP where id = {0}",V.DataTable.dtOperation(V.Args.RowIndex).ID!FieldValLong,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Data.DataTable.DeleteRow("dtOperation",V.Args.RowIndex)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCOperation_RowCellClick.End
+
+Program.Sub.GsGCRecipe_RowCellClick.Start
+V.Local.sSQL.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Delete")
+	F.Intrinsic.Control.If(V.DataTable.dtRecipe(V.Args.RowIndex).Previous!FieldValTrim,<>,"")
+		F.Intrinsic.String.Build("delete from GAB_4983_RTR_RECIPE where id = {0}",V.DataTable.dtRecipe(V.Args.RowIndex).ID!FieldValLong,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+		F.Data.DataTable.DeleteRow("dtRecipe",V.Args.RowIndex)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCRecipe_RowCellClick.End
+
+Program.Sub.SetContextMenu.Start
+Gui.F_Setup..ContextMenuCreate("CTXFLOW")
+Gui.F_Setup.GsGCFlow.ContextMenuAttach("CTXFLOW")
+Gui.F_Setup..ContextMenuAddItem("CTXFLOW","Import",0,"Import from Excel")
+Gui.F_Setup..ContextMenuSetItemEventHandler("CTXFLOW","Import","ContextMenuImport")
+
+Gui.F_Setup..ContextMenuCreate("CTXOP")
+Gui.F_Setup.GsGCOperation.ContextMenuAttach("CTXOP")
+Gui.F_Setup..ContextMenuAddItem("CTXOP","Import",0,"Import from Excel")
+Gui.F_Setup..ContextMenuSetItemEventHandler("CTXOP","Import","ContextMenuImport")
+
+Gui.F_Setup..ContextMenuCreate("CTXRECIPE")
+Gui.F_Setup.GsGCRecipe.ContextMenuAttach("CTXRECIPE")
+Gui.F_Setup..ContextMenuAddItem("CTXRECIPE","Import",0,"Import from Excel")
+Gui.F_Setup..ContextMenuSetItemEventHandler("CTXRECIPE","Import","ContextMenuImport")
+Program.Sub.SetContextMenu.End
+
+Program.Sub.ContextMenuImport.Start
+V.Local.bExist.Declare
+V.Local.i1.Declare
+V.Local.iID.Declare
+V.Local.iInspect.Declare
+V.Local.iRow.Declare
+V.Local.iTRow.Declare
+V.Local.sControl.Declare
+V.Local.sFilename.Declare
+V.Local.sMessage.Declare
+V.Local.sRet.Declare
+V.Local.sRow.Declare
+V.Local.sSQL.Declare
+V.Local.sTable.Declare
+V.Local.sType.Declare
+
+F.Intrinsic.Control.SelectCase(V.Args.MenuName)
+	F.Intrinsic.Control.Case("CTXFLOW")
+		V.Local.sControl.Set("GsGCFlow")
+		V.Local.sType.Set("Flow")
+		V.Local.sTable.Set("GAB_4983_RTR_FLOW")
+	F.Intrinsic.Control.Case("CTXOP")
+		V.Local.sControl.Set("GsGCOperation")
+		V.Local.sType.Set("Operation")
+		V.Local.sTable.Set("GAB_4983_RTR_OP")
+	F.Intrinsic.Control.Case("CTXRECIPE")
+		V.Local.sControl.Set("GsGCRecipe")
+		V.Local.sType.Set("Recipe")
+		V.Local.sTable.Set("GAB_4983_RTR_RECIPE")
+F.Intrinsic.Control.EndSelect
+
+'Get the excel upload file
+F.Intrinsic.UI.ShowOpenFileDialog("","*.xlsx|","",V.Local.sFileName)
+
+F.Intrinsic.Control.If(V.Local.sFileName,<>,"***CANCEL***")
+	F.Automation.MSExcel.CreateAppObject("MSExcel")
+	F.Automation.MSExcel.OpenWorkbook("MSExcel","UPL",V.Local.sFileName)
+	
+	F.Automation.MSExcel.OpenWorksheet("UPL","UPLSheet",1)
+	F.Automation.MSExcel.RowCount("UPLSheet",V.Local.iTRow)
+	
+	F.Intrinsic.String.Build("Uploading {0} from Excel",V.Local.sType,V.Local.sMessage)
+	F.Intrinsic.UI.InvokeWaitDialog(V.Local.sMessage,"Router Extra Fields Setup [APAC]")
+	F.Intrinsic.Control.For(V.Local.iRow,2,V.Local.iTRow,1)
+		F.Intrinsic.Math.Sub(V.Local.iRow,1,V.Local.i1)
+		F.Intrinsic.String.Build("Processing row {0}",V.Local.i1,V.Local.sMessage)
+		F.Intrinsic.UI.ChangeWaitStatus(V.Local.sMessage,V.Local.iRow,1,V.Local.iTRow)
+		F.Automation.MSExcel.ReadRow("UPLSheet",V.Local.iRow,1,2,V.Local.sRow)
+		F.Intrinsic.String.Split(V.Local.sRow,"*!*",V.Local.sRow)
+		
+		F.Intrinsic.Control.If(V.Local.sRow(0).Trim,<>,"")
+			F.Intrinsic.String.Build("select * from {1} where {2} = '{0}'",V.Local.sRow(0).UCase,V.Local.sTable,V.Local.sType.Trim,V.Local.sSQL)
+			F.ODBC.Connection!conx.OpenLocalRecordsetRW("rst",V.Local.sSQL)
+			F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,True)
+				F.Intrinsic.String.Build("select max(id) from {1}",V.Local.sTable,V.Local.sSQL)
+				F.ODBC.Connection!conx.ExecuteAndReturn(V.Local.sSQL,V.Local.iID)
+				F.Intrinsic.Math.Add(V.Local.iID,1,V.Local.iID)
+				F.Intrinsic.Control.If(V.Local.sType,<>,"Operation")
+					F.Intrinsic.String.Build("insert into {2}(id,{3}) values({0},'{1}');",V.Local.iID,V.Local.sRow(0).UCase,V.Local.sTable,V.Local.sType,V.Local.sSQL)
+				F.Intrinsic.Control.Else
+'					F.Intrinsic.String.IsInString(V.Local.sRow(0).UCase,"_INSP",True,V.Local.bExist)
+'					F.Intrinsic.Control.If(V.Local.bExist)
+'						V.Local.iInspect.Set(1)
+'					F.Intrinsic.Control.Else
+'						F.Intrinsic.String.IsInString(V.Local.sRow(0).UCase,"_CD",True,V.Local.bExist)
+'						F.Intrinsic.Control.If(V.Local.bExist)
+'							V.Local.iInspect.Set(1)
+'						F.Intrinsic.Control.Else
+'							F.Intrinsic.String.IsInString(V.Local.sRow(0).UCase,"_TEST",True,V.Local.bExist)
+'							F.Intrinsic.Control.If(V.Local.bExist)
+'								V.Local.iInspect.Set(1)
+'							F.Intrinsic.Control.Else
+								V.Local.iInspect.Set(0)
+'							F.Intrinsic.Control.EndIf
+'						F.Intrinsic.Control.EndIf
+'					F.Intrinsic.Control.EndIf
+					F.Intrinsic.String.Build("insert into {2}(id,{3},inspection) values({0},'{1}',{4});",V.Local.iID,V.Local.sRow(0).UCase,V.Local.sTable,V.Local.sType,V.Local.iInspect,V.Local.sSQL)
+				F.Intrinsic.Control.EndIf
+				F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+'			F.Intrinsic.Control.Else
+'				F.ODBC.conx!rst.Set![V.Local.sType](V.Local.sRow(1).Trim)
+'				F.Intrinsic.Control.If(V.Local.sType,=,"Flow")
+'					F.ODBC.conx!rst.Set!FLOW(V.Local.sRow(1).Trim)
+'				F.Intrinsic.Control.ElseIf(V.Local.sType,=,"Operation")
+'					F.ODBC.conx!rst.Set!OPERATION(V.Local.sRow(1).Trim)
+'				F.Intrinsic.Control.ElseIf(V.Local.sType,=,"Recipe")
+'					F.ODBC.conx!rst.Set!RECIPE(V.Local.sRow(1).Trim)
+'				F.Intrinsic.Control.EndIf
+'				F.ODBC.conx!rst.Update
+			F.Intrinsic.Control.EndIf
+			F.ODBC.conx!rst.Close
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.iRow)
+	F.Intrinsic.UI.CloseWaitDialog
+	
+	F.Automation.MSExcel.DestroyAllObjects("MSExcel","UPL","UPLSheet")
+	
+	F.Data.DataTable.Close("dtFlow")
+	F.Data.DataTable.Close("dtOperation")
+	F.Data.DataTable.Close("dtRecipe")
+	Gui.F_Setup..Visible(False)
+	F.Intrinsic.Control.CallSub(loadscreen)
+	Gui.F_Setup..Visible(True)
+F.Intrinsic.Control.EndIf
+Program.Sub.ContextMenuImport.End
+
+Program.Sub.GsGCTR_RowCellClick.Start
+V.Local.iWidths.Declare
+V.Local.sMessage.Declare
+V.Local.sRet.Declare
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare
+V.Local.sWC.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Add")
+	F.Intrinsic.String.Split("Recipe*!*","*!*",V.Local.sTitles)
+	F.Intrinsic.String.Split("1000*!*300","*!*",V.Local.iWidths)
+	F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+	F.Intrinsic.UI.Browser("Select a Recipe","conx","select recipe, id from GAB_4983_RTR_RECIPE order by recipe",V.Local.sTitles,V.Local.iWidths,V.Local.sRet)
+	
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+		F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+		
+		V.Local.sWC.Set(V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim)
+		'Verify that the recipe has not been tied to WC previously
+		F.Intrinsic.String.Build("select * from GAB_4983_RTR_WC_RCP where machine = '{0}' and recipe = {1}",V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim,V.Local.sRet(1),V.Local.sSQL)
+		F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+		F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,True)
+			F.Intrinsic.String.Build("insert into GAB_4983_RTR_WC_RCP(machine,recipe) values('{0}',{1});",V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim,V.Local.sRet(1),V.Local.sSQL)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+			F.Data.DataTable.AddRow("dtWC$dtRecipe","ToolID",V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim,"Recipe",V.Local.sRet(0).Trim,"RecipeID",V.Local.sRet(1))
+		F.Intrinsic.Control.Else
+			F.Intrinsic.String.Build("The selected recipe is already tied to {0}",V.DataTable.dtWC(V.Args.RowIndex).Tools!FieldValTrim,V.Local.sMessage)
+			F.Intrinsic.UI.Msgbox(V.Local.sMessage)
+		F.Intrinsic.Control.EndIf
+		F.ODBC.conx!rst.Close
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ElseIf(V.Args.Column,=,"Delete")
+	F.Intrinsic.String.Build("delete from GAB_4983_RTR_WC_RCP where machine = '{0}' and recipe = {1}",V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).ToolID!FieldValTrim,V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).RecipeID!FieldVal,V.Local.sSQL)
+	F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Data.DataTable.DeleteRow("dtWC$dtRecipe",V.Args.RowIndex)
+	F.Data.DataTable.AcceptChanges("dtWC$dtRecipe")
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCTR_RowCellClick.End
+
+Program.Sub.GsGCFO_RowCellClick.Start
+V.Local.iWidths.Declare
+V.Local.sMessage.Declare
+V.Local.sRet.Declare
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare
+V.Local.sWC.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Add")
+	F.Intrinsic.String.Split("Operation*!*","*!*",V.Local.sTitles)
+	F.Intrinsic.String.Split("1200*!*300","*!*",V.Local.iWidths)
+	F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+	F.Intrinsic.UI.Browser("Select an Operation","conx","select operation, id from GAB_4983_RTR_OP order by operation",V.Local.sTitles,V.Local.iWidths,V.Local.sRet)
+	
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+		F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+		
+		V.Local.sWC.Set(V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim)
+		'Verify that the recipe has not been tied to WC previously
+		F.Intrinsic.String.Build("select * from GAB_4983_RTR_FLOW_OP where FLOW = {0} and OPERATION = {1}",V.DataTable.dtF(V.Args.RowIndex).ID!FieldVal,V.Local.sRet(1),V.Local.sSQL)
+		F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+		F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,True)
+			F.Intrinsic.String.Build("insert into GAB_4983_RTR_FLOW_OP(FLOW,OPERATION) values({0},{1});",V.DataTable.dtF(V.Args.RowIndex).ID!FieldVal,V.Local.sRet(1),V.Local.sSQL)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+			F.Data.DataTable.AddRow("dtF$dtOp1","FlowID",V.DataTable.dtF(V.Args.RowIndex).ID!FieldVal,"Operation",V.Local.sRet(0).Trim,"OperationID",V.Local.sRet(1))
+		F.Intrinsic.Control.Else
+			F.Intrinsic.String.Build("The selected operation is already tied to flow {0}",V.DataTable.dtF(V.Args.RowIndex).Flow!FieldValTrim,V.Local.sMessage)
+			F.Intrinsic.UI.Msgbox(V.Local.sMessage)
+		F.Intrinsic.Control.EndIf
+		F.ODBC.conx!rst.Close
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ElseIf(V.Args.Column,=,"Delete")
+	F.Intrinsic.String.Build("delete from GAB_4983_RTR_FLOW_OP where FLOW = {0} and OPERATION = {1}",V.DataTable.dtF$dtOp1(V.Args.RowIndex).FlowID!FieldValTrim,V.DataTable.dtF$dtOp1(V.Args.RowIndex).Operation!FieldVal,V.Local.sSQL)
+	F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Data.DataTable.DeleteRow("dtF$dtOp1",V.Args.RowIndex)
+	F.Data.DataTable.AcceptChanges("dtF$dtOp1")
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCFO_RowCellClick.End
+
+Program.Sub.GsGCOT_RowCellClick.Start
+V.Local.iWidths.Declare
+V.Local.sMessage.Declare
+V.Local.sRet.Declare
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare
+V.Local.sWC.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Add")
+	F.Intrinsic.String.Split("Tool ID*!*Tool Name","*!*",V.Local.sTitles)
+	F.Intrinsic.String.Split("1200*!*300","*!*",V.Local.iWidths)
+	F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+	F.Intrinsic.UI.Browser("Select a Tool","conx","select machine as ToolID, wc_name as Tools from workcenters order by machine",V.Local.sTitles,V.Local.iWidths,V.Local.sRet)
+	
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+		F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+		
+		V.Local.sWC.Set(V.DataTable.dtWC(V.Args.RowIndex).ToolID!FieldValTrim)
+		'Verify that the recipe has not been tied to WC previously
+		F.Intrinsic.String.Build("select * from GAB_4983_RTR_OP_WC where OPERATION = {0} and MACHINE = '{1}'",V.DataTable.dtO(V.Args.RowIndex).ID!FieldVal,V.Local.sRet(0).trim,V.Local.sSQL)
+		F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+		F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,True)
+			F.Intrinsic.String.Build("insert into GAB_4983_RTR_OP_WC(OPERATION,MACHINE) values({0},'{1}');",V.DataTable.dtO(V.Args.RowIndex).ID!FieldVal,V.Local.sRet(0).trim,V.Local.sSQL)
+			F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+			F.Data.DataTable.AddRow("dtO$dtT","OperationID",V.DataTable.dtO(V.Args.RowIndex).ID!FieldVal,"ToolID",V.Local.sRet(0).Trim,"Tools",V.Local.sRet(1))
+		F.Intrinsic.Control.Else
+			F.Intrinsic.String.Build("The selected tool is already tied to operation {0}",V.DataTable.dtO(V.Args.RowIndex).Operation!FieldValTrim,V.Local.sMessage)
+			F.Intrinsic.UI.Msgbox(V.Local.sMessage)
+		F.Intrinsic.Control.EndIf
+		F.ODBC.conx!rst.Close
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ElseIf(V.Args.Column,=,"Delete")
+	F.Intrinsic.String.Build("delete from GAB_4983_RTR_OP_WC where OPERATION = {0} and MACHINE = '{1}'",V.DataTable.dtO$dtT(V.Args.RowIndex).OperationID!FieldValTrim,V.DataTable.dtO$dtT(V.Args.RowIndex).ToolID!FieldVal,V.Local.sSQL)
+	F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Data.DataTable.DeleteRow("dtO$dtT",V.Args.RowIndex)
+	F.Data.DataTable.AcceptChanges("dtO$dtT")
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCOT_RowCellClick.End
+
+Program.Sub.GsGCTR_CellValueChanged.Start
+V.Local.bNumeric.Declare
+V.Local.sSQL.Declare
+
+F.Intrinsic.Control.If(V.Args.Column,=,"Cost")
+	F.Intrinsic.Math.IsNumeric(V.Args.Value,V.Local.bNumeric)
+	
+	F.Intrinsic.Control.If(V.Local.bNumeric)
+		F.Intrinsic.String.Build("update GAB_4983_RTR_WC_RCP set cost = {2} where machine = '{0}' and recipe = {1}",V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).ToolID!FieldValTrim,V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).RecipeID!FieldValTrim,V.Args.Value,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.ElseIf(V.Args.Column,=,"Runtime")
+	F.Intrinsic.Math.IsNumeric(V.Args.Value,V.Local.bNumeric)
+	
+	F.Intrinsic.Control.If(V.Local.bNumeric)
+		F.Intrinsic.String.Build("update GAB_4983_RTR_WC_RCP set runtime= {2} where machine = '{0}' and recipe = {1}",V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).ToolID!FieldValTrim,V.DataTable.dtWC$dtRecipe(V.Args.RowIndex).RecipeID!FieldValTrim,V.Args.Value,V.Local.sSQL)
+		F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.GsGCTR_CellValueChanged.End
+
+Program.Sub.Comments.Start
+${$0$}$$}$$}$22/2/2018 4:03:31 PM$}$False
+${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$This custom program is used when base currency used is different from the local currency and the local government enforces to show exchange rate to local currency for every invoice generated by the system.
+Program.Sub.Comments.End
