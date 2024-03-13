@@ -1,0 +1,930 @@
+Program.Sub.ScreenSU.Start
+Gui.F_Runsheet..Create
+Gui.F_Runsheet..Caption("Run Sheet Creation")
+Gui.F_Runsheet..Size(16170,10695)
+Gui.F_Runsheet..MinX(0)
+Gui.F_Runsheet..MinY(0)
+Gui.F_Runsheet..Position(0,0)
+Gui.F_Runsheet..FontSize(9)
+Gui.F_Runsheet..BackColor(-2147483633)
+Gui.F_Runsheet..MousePointer(0)
+Gui.F_Runsheet..Event(UnLoad,Unload)
+Gui.F_Runsheet.frameRouter.Create(Frame)
+Gui.F_Runsheet.frameRouter.Size(6870,795)
+Gui.F_Runsheet.frameRouter.Position(75,45)
+Gui.F_Runsheet.frameRouter.Caption("Router")
+Gui.F_Runsheet.frameRouter.FontSize(9)
+Gui.F_Runsheet.txtRouter.Create(TextBox,"",True,1830,315,0,120,315,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtRouter.Parent("frameRouter")
+Gui.F_Runsheet.txtRouter.MaxLength(20)
+Gui.F_Runsheet.txtRouter.Event(LostFocus,txtRouter_LostFocus)
+Gui.F_Runsheet.txtRouterDesc.Create(TextBox,"",True,4650,315,0,2070,315,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtRouterDesc.Parent("frameRouter")
+Gui.F_Runsheet.txtRouterDesc.MaxLength(30)
+Gui.F_Runsheet.txtRouterDesc.Locked(True)
+Gui.F_Runsheet.framePL.Create(Frame)
+Gui.F_Runsheet.framePL.Size(1380,795)
+Gui.F_Runsheet.framePL.Position(7050,45)
+Gui.F_Runsheet.framePL.Caption("PL")
+Gui.F_Runsheet.framePL.FontSize(9)
+Gui.F_Runsheet.txtPL.Create(TextBox,"",True,690,315,0,90,315,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtPL.Parent("framePL")
+Gui.F_Runsheet.cmdBrwPL.Create(Button)
+Gui.F_Runsheet.cmdBrwPL.Size(435,375)
+Gui.F_Runsheet.cmdBrwPL.Position(870,285)
+Gui.F_Runsheet.cmdBrwPL.Parent("framePL")
+Gui.F_Runsheet.cmdBrwPL.Caption("^")
+Gui.F_Runsheet.cmdBrwPL.Event(Click,cmdBrwPL_Click)
+Gui.F_Runsheet.frameUM.Create(Frame)
+Gui.F_Runsheet.frameUM.Size(1380,795)
+Gui.F_Runsheet.frameUM.Position(8535,45)
+Gui.F_Runsheet.frameUM.Caption("UM")
+Gui.F_Runsheet.frameUM.FontSize(9)
+Gui.F_Runsheet.txtUM.Create(TextBox,"",True,690,315,0,90,315,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtUM.Parent("frameUM")
+Gui.F_Runsheet.cmdBrwUM.Create(Button)
+Gui.F_Runsheet.cmdBrwUM.Size(435,375)
+Gui.F_Runsheet.cmdBrwUM.Position(870,285)
+Gui.F_Runsheet.cmdBrwUM.Parent("frameUM")
+Gui.F_Runsheet.cmdBrwUM.Caption("^")
+Gui.F_Runsheet.cmdBrwUM.FontSize(9)
+Gui.F_Runsheet.cmdBrwUM.Event(Click,cmdBrwUM_Click)
+Gui.F_Runsheet.frameLine.Create(Frame)
+Gui.F_Runsheet.frameLine.Size(15780,8355)
+Gui.F_Runsheet.frameLine.Position(75,1695)
+Gui.F_Runsheet.frameLine.Caption("Router Line")
+Gui.F_Runsheet.frameLine.FontSize(9)
+Gui.F_Runsheet.GsGCLine.Create(GsGridControl)
+Gui.F_Runsheet.GsGCLine.Size(15525,4965)
+Gui.F_Runsheet.GsGCLine.Position(135,3255)
+Gui.F_Runsheet.GsGCLine.Parent("frameLine")
+Gui.F_Runsheet.GsGCLine.Event(RowCellClick,GsGCLine_RowCellClick)
+Gui.F_Runsheet.lblStep.Create(Label,"Step",True,510,255,0,105,390,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lblStep.Parent("frameLine")
+Gui.F_Runsheet.txtStep.Create(TextBox,"",True,795,315,0,630,315,True,2,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtStep.Parent("frameLine")
+Gui.F_Runsheet.txtStep.Locked(True)
+Gui.F_Runsheet.lbl1.Create(Label,"Flow",True,1320,255,0,120,900,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lbl1.Parent("frameLine")
+Gui.F_Runsheet.ddlFlow.Create(DropDownList)
+Gui.F_Runsheet.ddlFlow.Size(2220,345)
+Gui.F_Runsheet.ddlFlow.Position(135,1140)
+Gui.F_Runsheet.ddlFlow.Parent("frameLine")
+Gui.F_Runsheet.ddlFlow.FontSize(9)
+Gui.F_Runsheet.ddlFlow.Event(Click,ddlFlow_Clicked)
+Gui.F_Runsheet.lbl2.Create(Label,"Operation",True,1935,255,0,2490,900,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lbl2.Parent("frameLine")
+Gui.F_Runsheet.ddlOperation.Create(DropDownList)
+Gui.F_Runsheet.ddlOperation.Size(2220,345)
+Gui.F_Runsheet.ddlOperation.Position(2520,1140)
+Gui.F_Runsheet.ddlOperation.Parent("frameLine")
+Gui.F_Runsheet.ddlOperation.FontSize(9)
+Gui.F_Runsheet.ddlOperation.Event(Click,ddlOperation_Clicked)
+Gui.F_Runsheet.lbl3.Create(Label,"Tool",True,1935,255,0,4890,900,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lbl3.Parent("frameLine")
+Gui.F_Runsheet.ddlTool.Create(DropDownList)
+Gui.F_Runsheet.ddlTool.Size(2220,345)
+Gui.F_Runsheet.ddlTool.Position(4920,1140)
+Gui.F_Runsheet.ddlTool.Parent("frameLine")
+Gui.F_Runsheet.ddlTool.FontSize(9)
+Gui.F_Runsheet.ddlTool.Event(Click,ddlTool_Clicked)
+Gui.F_Runsheet.lbl4.Create(Label,"Recipe",True,1935,255,0,7335,900,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lbl4.Parent("frameLine")
+Gui.F_Runsheet.ddlRecipe.Create(DropDownList)
+Gui.F_Runsheet.ddlRecipe.Size(2220,345)
+Gui.F_Runsheet.ddlRecipe.Position(7350,1140)
+Gui.F_Runsheet.ddlRecipe.Parent("frameLine")
+Gui.F_Runsheet.ddlRecipe.FontSize(9)
+Gui.F_Runsheet.txtDesc.Create(TextboxM)
+Gui.F_Runsheet.txtDesc.Size(15510,1545)
+Gui.F_Runsheet.txtDesc.Position(120,1590)
+Gui.F_Runsheet.txtDesc.Parent("frameLine")
+Gui.F_Runsheet.txtWafer.Create(TextBox,"",True,2550,315,0,9780,1140,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtWafer.Parent("frameLine")
+Gui.F_Runsheet.lbl5.Create(Label,"Wafer ID",True,1935,255,0,9765,900,True,0,"Arial",9,-2147483633,0)
+Gui.F_Runsheet.lbl5.Parent("frameLine")
+Gui.F_Runsheet.cmdSaveLine.Create(Button)
+Gui.F_Runsheet.cmdSaveLine.Size(1380,525)
+Gui.F_Runsheet.cmdSaveLine.Position(12480,315)
+Gui.F_Runsheet.cmdSaveLine.Parent("frameLine")
+Gui.F_Runsheet.cmdSaveLine.Caption("Save Line")
+Gui.F_Runsheet.cmdSaveLine.FontSize(9)
+Gui.F_Runsheet.cmdSaveLine.Event(Click,cmdSaveLine_Click)
+Gui.F_Runsheet.cmdDeleteLine.Create(Button)
+Gui.F_Runsheet.cmdDeleteLine.Size(1380,525)
+Gui.F_Runsheet.cmdDeleteLine.Position(12480,960)
+Gui.F_Runsheet.cmdDeleteLine.Parent("frameLine")
+Gui.F_Runsheet.cmdDeleteLine.Caption("Delete Line")
+Gui.F_Runsheet.cmdDeleteLine.FontSize(9)
+Gui.F_Runsheet.cmdDeleteLine.Event(Click,cmdDeleteLine_Click)
+Gui.F_Runsheet.frameInsert.Create(Frame)
+Gui.F_Runsheet.frameInsert.Size(1620,1245)
+Gui.F_Runsheet.frameInsert.Position(14025,240)
+Gui.F_Runsheet.frameInsert.Parent("frameLine")
+Gui.F_Runsheet.frameInsert.Caption("Insert After Step")
+Gui.F_Runsheet.frameInsert.FontSize(9)
+Gui.F_Runsheet.txtStepAfter.Create(TextBox,"",True,540,315,0,555,315,True,2,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtStepAfter.Parent("frameInsert")
+Gui.F_Runsheet.txtStepAfter.NumericOnly(2)
+Gui.F_Runsheet.cmdInsert.Create(Button)
+Gui.F_Runsheet.cmdInsert.Size(1395,375)
+Gui.F_Runsheet.cmdInsert.Position(120,750)
+Gui.F_Runsheet.cmdInsert.Parent("frameInsert")
+Gui.F_Runsheet.cmdInsert.Caption("Insert")
+Gui.F_Runsheet.cmdInsert.FontSize(9)
+Gui.F_Runsheet.cmdInsert.Event(Click,cmdInsert_Click)
+Gui.F_Runsheet.frameMaterial.Create(Frame)
+Gui.F_Runsheet.frameMaterial.Size(9840,735)
+Gui.F_Runsheet.frameMaterial.Position(75,930)
+Gui.F_Runsheet.frameMaterial.Caption("Raw Material")
+Gui.F_Runsheet.frameMaterial.FontSize(9)
+Gui.F_Runsheet.txtPart.Create(TextBox,"",True,2655,315,0,105,285,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtPart.Parent("frameMaterial")
+Gui.F_Runsheet.txtPart.Event(LostFocus,txtPart_LostFocus)
+Gui.F_Runsheet.txtPartDesc.Create(TextBox,"",True,6300,315,0,2850,285,True,0,"Arial",9,-2147483643,1)
+Gui.F_Runsheet.txtPartDesc.Parent("frameMaterial")
+Gui.F_Runsheet.txtPartDesc.Locked(True)
+Gui.F_Runsheet.cmdBrwPart.Create(Button)
+Gui.F_Runsheet.cmdBrwPart.Size(435,375)
+Gui.F_Runsheet.cmdBrwPart.Position(9255,240)
+Gui.F_Runsheet.cmdBrwPart.Parent("frameMaterial")
+Gui.F_Runsheet.cmdBrwPart.Caption("^")
+Gui.F_Runsheet.cmdBrwPart.FontSize(9)
+Gui.F_Runsheet.cmdBrwPart.Event(Click,cmdBrwPart_Click)
+Gui.F_Runsheet.cmdUpdate.Create(Button)
+Gui.F_Runsheet.cmdUpdate.Size(1980,525)
+Gui.F_Runsheet.cmdUpdate.Position(10050,225)
+Gui.F_Runsheet.cmdUpdate.Caption("Process Runsheet")
+Gui.F_Runsheet.cmdUpdate.FontSize(9)
+Gui.F_Runsheet.cmdUpdate.Event(Click,cmdUpdate_Click)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Program.External.Include.Library("6021.lib")
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+V.Local.sIcon.Declare
+V.Local.sLibPath.Declare
+
+F.odbc.Connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.PUser,V.Ambient.PPass)
+F.Intrinsic.String.Build("{0}\ART\gss2.ico",V.Caller.GlobalDir,V.Local.sIcon)
+Gui.F_Runsheet..Icon(V.Local.sIcon)
+
+Gui.F_Runsheet.frameLine.Enabled(False)
+
+F.Intrinsic.Control.CallSub(initiliazefield)
+
+Gui.F_Runsheet.frameLine.Anchor(15)
+Gui.F_Runsheet.GsGCLine.Anchor(15)
+Gui.F_Runsheet..Show
+Program.Sub.Main.End
+
+Program.Sub.Unload.Start
+F.Data.DataTable.Close("dtInv")
+F.Data.DataTable.Close("dtInvMst")
+F.Data.DataTable.Close("dtRtrMst")
+
+F.Data.DataTable.Close("dtUM")
+F.Data.DataTable.Close("dtPL")
+
+F.Data.DataTable.Close("dtFO")
+F.Data.DataTable.Close("dtOT")
+F.Data.DataTable.Close("dtTR")
+
+F.Data.Dictionary.Close("dicFlow")
+F.Data.Dictionary.Close("dicOp")
+F.Data.Dictionary.Close("dicRecipe")
+
+F.ODBC.Connection!conx.Close
+F.Intrinsic.Control.End
+
+Program.Sub.Unload.End
+
+Program.Sub.InitiliazeField.Start
+'Select manufacture parts from inventory master
+F.Data.DataTable.CreateFromSQL("dtInv","conx","select rtrim(Part) as Part from v_inventory_mst2 where code_source = 'F' or code_source = 'M' order by part",True)
+F.Data.DataTable.AddColumn("dtInv","Description","String")
+F.Data.DataTable.AddColumn("dtInv","PL","String")
+F.Data.DataTable.AddColumn("dtInv","UM","String")
+
+'Create a reference datatable after selecting router
+F.Data.DataTable.CreateFromSQL("dtInvMst","conx","select Part, Description, product_line as PL, um_inventory as UM from v_inventory_mstr",True)
+F.Data.DataTable.CreateFromSQL("dtPL","conx","select product_line as PL, product_line_name as Description from v_product_line where product_line <> '' order by product_line",True)
+F.Data.DataTable.CreateFromSQL("dtUM","conx","select code as UM, descr as Description from v_um_codes order by code",True)
+
+'Create a reference datatable for router
+F.Data.DataTable.CreateFromSQL("dtRtrMst","conx","select Router, description_router as Description, prod_line as PL, um_inventory as UM from v_router_header",True)
+
+F.Data.Dictionary.CreateFromDataTable("dicInv","dtInvMst","Part","Description")
+F.Data.Dictionary.SetDefaultReturn("dicInv","")
+F.Data.DataTable.FillFromDictionary("dtInv","dicInv","Part","Description")
+F.Data.Dictionary.Close("dicInv")
+
+F.Data.Dictionary.CreateFromDataTable("dicInv","dtInvMst","Part","PL")
+F.Data.Dictionary.SetDefaultReturn("dicInv","")
+F.Data.DataTable.FillFromDictionary("dtInv","dicInv","Part","PL")
+F.Data.Dictionary.Close("dicInv")
+
+F.Data.Dictionary.CreateFromDataTable("dicInv","dtInvMst","Part","UM")
+F.Data.Dictionary.SetDefaultReturn("dicInv","")
+F.Data.DataTable.FillFromDictionary("dtInv","dicInv","Part","UM")
+F.Data.Dictionary.Close("dicInv")
+
+'Autofill router with manufacture part list
+F.Data.Dictionary.CreateFromDataTable("dicInv","dtInv","Part","Part")
+Gui.F_Runsheet.txtRouter.AddAutoCompleteItem("dicInv","Dictionary")
+F.Data.Dictionary.Close("dicInv")
+
+'Autofill raw material with purchase part list
+F.Data.Dictionary.CreateFromSQL("dicInv","conx","select Part, part from v_inventory_mst2 where code_source = 'P' or code_source = 'J' order by part")
+Gui.F_Runsheet.txtPart.AddAutoCompleteItem("dicInv","Dictionary")
+F.Data.Dictionary.Close("dicInv")
+
+'Autofill product line
+F.Data.Dictionary.CreateFromDataTable("dicPL","dtPL","PL","PL")
+Gui.F_Runsheet.txtPL.AddAutoCompleteItem("dicPL","Dictionary")
+F.Data.Dictionary.Close("dicPL")
+
+'Autofill UM
+F.Data.Dictionary.CreateFromDataTable("dicUM","dtUM","UM","UM")
+Gui.F_Runsheet.txtUM.AddAutoCompleteItem("dicUM","Dictionary")
+F.Data.Dictionary.Close("dicUM")
+
+'Dictionary for references
+F.Data.Dictionary.CreateFromSQL("dicFlow","conx","select id as ID, flow as Flow from GAB_4983_RTR_FLOW order by id")
+F.Data.Dictionary.SetDefaultReturn("dicFlow","")
+F.Data.Dictionary.CreateFromSQL("dicOp","conx","select id as ID, operation as Operation from GAB_4983_RTR_OP order by id")
+F.Data.Dictionary.SetDefaultReturn("dicOp","")
+F.Data.Dictionary.CreateFromSQL("dicRecipe","conx","select id as ID, recipe as Recipe from GAB_4983_RTR_RECIPE order by id")
+F.Data.Dictionary.SetDefaultReturn("dicRecipe","")
+
+'Flow, operation, tool and recipe references
+F.Data.DataTable.CreateFromSQL("dtFO","conx","select Flow as FlowID, Operation as OpID from GAB_4983_RTR_FLOW_OP",True)
+F.Data.DataTable.CreateFromSQL("dtOT","conx","select operation as OpID, machine as ToolID from GAB_4983_RTR_OP_WC",True)
+F.Data.DataTable.CreateFromSQL("dtTR","conx","select Machine as ToolID, recipe as RecipeID, Cost, Runtime from GAB_4983_RTR_WC_RCP",True)
+F.Data.DataTable.CreateFromSQL("dtWC","conx","select machine as ToolID, wc_name as Tools from workcenters",True)
+
+Gui.F_Runsheet.ddlFlow.AddItems("Dictionary","dicFlow")
+Program.Sub.InitiliazeField.End
+
+Program.Sub.txtRouter_LostFocus.Start
+V.Local.i1.Declare
+V.Local.iStep.Declare
+V.Local.sFilter.Declare
+V.Local.sRet.Declare
+V.Local.sRouter.Declare
+V.Local.sSQL.Declare
+
+V.Local.sRouter.Set(V.Screen.F_Runsheet!txtRouter.Text)
+F.Intrinsic.String.Build("Part = '{0}'",V.Local.sRouter.Trim,V.Local.sFilter)
+F.Data.DataTable.Select("dtInvMst",V.Local.sFilter,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***NORETURN***")
+	Gui.F_Runsheet.txtRouterDesc.Text(V.DataTable.dtInvMst(V.Local.sRet).Description!FieldValTrim)
+	Gui.F_Runsheet.txtPL.Text(V.DataTable.dtInvMst(V.Local.sRet).PL!FieldValTrim)
+	Gui.F_Runsheet.txtUM.Text(V.DataTable.dtInvMst(V.Local.sRet).UM!FieldValTrim)
+F.Intrinsic.Control.Else
+	F.Intrinsic.String.Build("Router = '{0}'",V.Local.sRouter.Trim,V.Local.sFilter)
+	F.Data.DataTable.Select("dtRtrMst",V.Local.sFilter,V.Local.sRet)
+	F.Intrinsic.Control.If(V.Local.sRet,<>,"***NORETURN***")
+		Gui.F_Runsheet.txtRouterDesc.Text(V.DataTable.dtRtrMst(V.Local.sRet).Description!FieldValTrim)
+		Gui.F_Runsheet.txtPL.Text(V.DataTable.dtRtrMst(V.Local.sRet).PL!FieldValTrim)
+		Gui.F_Runsheet.txtUM.Text(V.DataTable.dtRtrMst(V.Local.sRet).UM!FieldValTrim)
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.DataTable.dtRouter.Exists,=,True)
+	F.Data.DataView.Close("dtRouter","dvRouter")
+	F.Data.DataTable.Close("dtRouter")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.String.Build("Router = '{0}'",V.Local.sRouter.Trim,V.Local.sFilter)
+F.Data.DataTable.Select("dtRtrMst",V.Local.sFilter,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+	Gui.F_Runsheet.txtRouterDesc.Locked(False)
+	F.Data.DataTable.Create("dtRouter",True)
+	F.Data.DataTable.AddColumn("dtRouter","Seq","String")
+	F.Data.DataTable.AddColumn("dtRouter","Step","Long")
+	F.Data.DataTable.AddColumn("dtRouter","FlowID","Long")
+	F.Data.DataTable.AddColumn("dtRouter","Flow","String")
+	F.Data.DataTable.AddColumn("dtRouter","OpID","Long")
+	F.Data.DataTable.AddColumn("dtRouter","Operation","String")
+	F.Data.DataTable.AddColumn("dtRouter","ToolID","String")
+	F.Data.DataTable.AddColumn("dtRouter","Tools","String")
+	F.Data.DataTable.AddColumn("dtRouter","RecipeID","Long")
+	F.Data.DataTable.AddColumn("dtRouter","Recipe","String")
+	F.Data.DataTable.AddColumn("dtRouter","Description","String")
+	F.Data.DataTable.AddColumn("dtRouter","WaferID","String")
+	F.Data.DataTable.AddColumn("dtRouter","TimeLink","Long")
+	F.Data.DataTable.AddColumn("dtRouter","Cost","Float")
+	
+	Gui.F_Runsheet.txtStep.Text("1")
+F.Intrinsic.Control.Else
+	F.Intrinsic.String.Build("select line_router as Seq, 0 as Step, Flow as FlowID, ' ' as Flow, Operation as OpID, ' ' as Operation, ' ' as ToolID, ' ' as Tools, Recipe as RecipeID, ' ' as Recipe, ' ' as Description, wafer_id as WaferID, runtime as TimeLink, convert(cost,sql_float) as Cost from GAB_4983_RTR_EXTRA where router = '{0}'",V.Local.sRouter.Trim,V.Local.sSQL)
+	F.Data.DataTable.CreateFromSQL("dtRouter","conx",V.Local.sSQL,True)
+	
+	F.Intrinsic.String.Build("select line_router as Seq, part_wc_outside as ToolID, desc_rt_line as Tools from v_router_line where router = '{0}' and lmo = 'L'",V.Local.sRouter.Trim,V.Local.sSQL)
+	F.Data.DataTable.CreateFromSQL("dtTools","conx",V.Local.sSQL,True)
+	F.Data.Dictionary.CreateFromDataTable("dicParam","dtTools","Seq","ToolID")
+	F.Data.Dictionary.SetDefaultReturn("dicParam","")
+	F.Data.DataTable.FillFromDictionary("dtRouter","dicParam","Seq","ToolID")
+	F.Data.Dictionary.Close("dicParam")
+	F.Data.Dictionary.CreateFromDataTable("dicParam","dtTools","Seq","Tools")
+	F.Data.Dictionary.SetDefaultReturn("dicParam","")
+	F.Data.DataTable.FillFromDictionary("dtRouter","dicParam","Seq","Tools")
+	F.Data.Dictionary.Close("dicParam")
+	f.Data.DataTable.Close("dtTools")
+	
+	F.Data.DataTable.FillFromDictionary("dtRouter","dicFlow","FlowID","Flow")
+	F.Data.DataTable.FillFromDictionary("dtRouter","dicOp","OpID","Operation")
+	F.Data.DataTable.FillFromDictionary("dtRouter","dicRecipe","RecipeID","Recipe")
+	
+	V.Local.iStep.Set(1)
+	F.Intrinsic.Control.For(V.Local.i1,0,V.DataTable.dtRouter.RowCount--,1)
+		F.Data.DataTable.SetValue("dtRouter",V.Local.i1,"Step",V.Local.iStep)
+		F.Intrinsic.Math.Add(V.Local.iStep,1,V.Local.iStep)
+	F.Intrinsic.Control.Next(V.Local.i1)
+	
+	Gui.F_Runsheet.txtStep.Text(V.Local.iStep)
+	
+	F.Intrinsic.String.Build("select line_router as Seq, part_wc_outside as Part, desc_rt_line as PartDesc from v_router_line where router = '{0}' and lmo = 'M'",V.Local.sRouter.Trim,V.Local.sSQL)
+	F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",V.Local.sSQL)
+	F.Intrinsic.Control.If(V.ODBC.conx!rst.EOF,=,False)
+		Gui.F_Runsheet.txtPart.Text(V.ODBC.conx!rst.FieldValTrim!Part)
+		Gui.F_Runsheet.txtPartDesc.Text(V.ODBC.conx!rst.FieldValTrim!PartDesc)
+	F.Intrinsic.Control.EndIf
+	F.ODBC.conx!rst.Close
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.CallSub(gridviewproperties)
+
+Gui.F_Runsheet.frameLine.Enabled(True)
+Gui.F_Runsheet.txtStepAfter.Text("0")
+Program.Sub.txtRouter_LostFocus.End
+
+Program.Sub.GridViewProperties.Start
+F.Data.DataView.Create("dtRouter","dvRouter",22,"","Step ASC")
+Gui.F_Runsheet.GsGCLine.AddGridviewFromDatatable("gvRouter","dtRouter")
+Gui.F_Runsheet.GsGCLine.MainView("gvRouter")
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Seq","Visible",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","FlowID","Visible",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","OpID","Visible",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","RecipeID","Visible",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Cost","Visible",False)
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","ToolID","Caption","Tool ID")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","WaferID","Caption","Wafer ID")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","TimeLink","Caption","Time Link")
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Step","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Flow","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Operation","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","ToolID","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Tools","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Recipe","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","WaferID","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Description","HeaderHAlignment","Center")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","TimeLink","HeaderHAlignment","Center")
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Step","CellHAlignment","Center")
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Step","MinWidth","40")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Flow","MinWidth","70")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Operation","MinWidth","70")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","ToolID","MinWidth","60")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Tools","MinWidth","100")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Recipe","MinWidth","70")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","WaferID","MinWidth","90")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Description","MinWidth","150")
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","TimeLink","MinWidth","60")
+
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Step","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Flow","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Operation","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","ToolID","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Tools","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Recipe","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","WaferID","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","Description","AllowEdit",False)
+Gui.F_Runsheet.GsGCLine.SetColumnProperty("gvRouter","TimeLink","AllowEdit",False)
+Program.Sub.GridViewProperties.End
+
+Program.Sub.ddlFlow_Clicked.Start
+V.Local.iFlow.Declare
+V.Local.sFilter.Declare
+V.Local.sFlow.Declare
+
+'Get Flow ID based on the selected dropdown
+V.Local.sFlow.Set(V.Screen.F_Runsheet!ddlFlow.Text)
+F.Data.Dictionary.ReturnKeyFromValue("dicFlow",V.Local.sFlow,V.Local.iFlow)
+'Create datatable based on dataview filtered from flow-operation relationship
+F.Intrinsic.String.Build("FlowID = {0}",V.Local.iFlow,V.Local.sFilter)
+F.Data.DataView.Create("dtFO","dvOp",22,V.Local.sFilter,"")
+F.Data.DataView.ToDataTable("dtFO","dvOp","dtOp",True)
+F.Data.DataView.Close("dtFO","dvOp")
+'Add operation string to the datatable and get values using dictionary
+F.Data.DataTable.AddColumn("dtOp","Operation","String")
+F.Data.DataTable.FillFromDictionary("dtOp","dicOp","OpID","Operation")
+F.Data.DataView.Create("dtOp","dvOp",22,"","Operation ASC")
+'Create dictionary from the datatable
+F.Data.Dictionary.CreateFromDataView("dicOpTemp","dtOp","dvOp","OpID","Operation")
+'Clear other dropdownlist
+Gui.F_Runsheet.ddlOperation.ClearItems
+Gui.F_Runsheet.ddlTool.ClearItems
+Gui.F_Runsheet.ddlRecipe.ClearItems
+Gui.F_Runsheet.ddlOperation.AddItems("Dictionary","dicOpTemp")
+F.Data.Dictionary.Close("dicOpTemp")
+F.Data.DataView.Close("dtOp","dvOp")
+F.Data.DataTable.Close("dtOp")
+Program.Sub.ddlFlow_Clicked.End
+
+Program.Sub.ddlOperation_Clicked.Start
+V.Local.iOp.Declare
+V.Local.sFilter.Declare
+V.Local.sOp.Declare
+
+'Get Operation ID based on the selected dropdown
+V.Local.sOp.Set(V.Screen.F_Runsheet!ddlOperation.Text)
+F.Data.Dictionary.ReturnKeyFromValue("dicOp",V.Local.sOp,V.Local.iOp)
+'Create datatable based on dataview filtered from operation-tool relationship
+F.Intrinsic.String.Build("OpID = {0}",V.Local.iOp,V.Local.sFilter)
+F.Data.DataView.Create("dtOT","dvTool",22,V.Local.sFilter,"ToolID ASC")
+'Create dictionary from the dataview
+F.Data.Dictionary.CreateFromDataView("dicTool","dtOT","dvTool","ToolID","ToolID")
+Gui.F_Runsheet.ddlTool.ClearItems
+Gui.F_Runsheet.ddlRecipe.ClearItems
+Gui.F_Runsheet.ddlTool.AddItems("Dictionary","dicTool")
+F.Data.Dictionary.Close("dicTool")
+F.Data.DataView.Close("dtOT","dvTool")
+Program.Sub.ddlOperation_Clicked.End
+
+Program.Sub.ddlTool_Clicked.Start
+V.Local.iRecipe.Declare
+V.Local.sFilter.Declare
+V.Local.sTool.Declare
+
+V.Local.sTool.Set(V.Screen.F_Runsheet!ddlTool.Text)
+'Create datatable based on dataview filtered from flow-operation relationship
+F.Intrinsic.String.Build("ToolID = '{0}'",V.Local.sTool,V.Local.sFilter)
+F.Data.DataView.Create("dtTR","dvRcp",22,V.Local.sFilter,"")
+F.Data.DataView.ToDataTable("dtTR","dvRcp","dtRcp",True)
+F.Data.DataView.Close("dtTR","dvRcp")
+'Add operation string to the datatable and get values using dictionary
+F.Data.DataTable.AddColumn("dtRcp","Recipe","String")
+F.Data.DataTable.FillFromDictionary("dtRcp","dicRecipe","RecipeID","Recipe")
+F.Data.DataView.Create("dtRcp","dvRcp",22,"","Recipe ASC")
+'Create dictionary from the datatable
+F.Data.Dictionary.CreateFromDataView("dicRcp","dtRcp","dvRcp","RecipeID","Recipe")
+'Clear other dropdownlist
+Gui.F_Runsheet.ddlRecipe.ClearItems
+Gui.F_Runsheet.ddlRecipe.AddItems("Dictionary","dicRcp")
+F.Data.Dictionary.Close("dicRcp")
+F.Data.DataView.Close("dtRcp","dvRcp")
+F.Data.DataTable.Close("dtRcp")
+Program.Sub.ddlTool_Clicked.End
+
+Program.Sub.cmdSaveLine_Click.Start
+V.Local.fCost.Declare
+V.Local.iFlow.Declare
+V.Local.iIndex.Declare
+V.Local.iOperation.Declare
+V.Local.iRecipe.Declare
+V.Local.iRunTime.Declare
+V.Local.iStep.Declare
+V.Local.sDescription.Declare
+V.Local.sFilter.Declare
+V.Local.sFlow.Declare
+V.Local.sOperation.Declare
+V.Local.sRecipe.Declare
+V.Local.sRet.Declare
+V.Local.sSeq.Declare
+V.Local.sTool.Declare
+V.Local.sToolName.Declare
+V.Local.sWaferID.Declare
+
+V.Local.sFlow.Set(V.Screen.F_Runsheet!ddlFlow.Text)
+V.Local.sOperation.Set(V.Screen.F_Runsheet!ddlOperation.Text)
+V.Local.sTool.Set(V.Screen.F_Runsheet!ddlTool.Text)
+V.Local.sRecipe.Set(V.Screen.F_Runsheet!ddlRecipe.Text)
+V.Local.sDescription.Set(V.Screen.F_Runsheet!txtDesc.Text)
+V.Local.sWaferID.Set(V.Screen.F_Runsheet!txtWafer.Text)
+
+F.Intrinsic.Control.If(V.Local.sFlow.Trim,<>,"")
+	F.Intrinsic.Control.If(V.Local.sOperation.Trim,<>,"")
+		F.Intrinsic.Control.If(V.Local.sTool.Trim,<>,"")
+			F.Intrinsic.Control.If(V.Local.sRecipe.Trim,<>,"")
+				F.Data.Dictionary.ReturnKeyFromValue("dicFlow",V.Local.sFlow,V.Local.iFlow)
+				F.Data.Dictionary.ReturnKeyFromValue("dicOp",V.Local.sOperation,V.Local.iOperation)
+				F.Data.Dictionary.ReturnKeyFromValue("dicRecipe",V.Local.sRecipe,V.Local.iRecipe)
+				'Get tools name
+				F.Intrinsic.String.Build("ToolID = '{0}'",V.Local.sTool.Trim,V.Local.sFilter)
+				F.Data.DataTable.Select("dtWC",V.Local.sFilter,V.Local.sRet)
+				V.Local.sToolName.Set(V.DataTable.dtWC(V.Local.sRet).Tools!FieldValTrim)
+				'Get run time and cost
+				F.Intrinsic.String.Build("ToolID = '{0}' and RecipeID = {1}",V.Local.sTool.Trim,V.Local.iRecipe,V.Local.sFilter)
+				F.Data.DataTable.Select("dtTR",V.Local.sFilter,V.Local.sRet)
+				V.Local.iRunTime.Set(V.DataTable.dtTR(V.Local.sRet).Runtime!FieldVal)
+				V.Local.fCost.Set(V.DataTable.dtTR(V.Local.sRet).Cost!FieldVal)
+				'Check if step is already in the grid
+				V.Local.iStep.Set(V.Screen.F_Runsheet!txtStep.Text)
+				F.Intrinsic.String.Build("Step = {0}",V.Local.iStep,V.Local.sFilter)
+				F.Data.DataTable.Select("dtRouter",V.Local.sFilter,V.Local.sRet)
+				F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+					F.Intrinsic.String.LPad(V.Local.iStep,"0",5,V.Local.sSeq)
+					F.Intrinsic.String.Concat(V.Local.sSeq,"0",V.Local.sSeq)
+					F.Data.DataTable.AddRow("dtRouter","Seq",V.Local.sSeq,"Step",V.Local.iStep,"FlowID",V.Local.iFlow,"Flow",V.Local.sFlow,"OpID",V.Local.iOperation,"Operation",V.Local.sOperation,"ToolID",V.Local.sTool.Trim,"Tools",V.Local.sToolName,"RecipeID",V.Local.iRecipe,"Recipe",V.Local.sRecipe,"Description",V.Local.sDescription,"WaferID",V.Local.sWaferID.Trim,"TimeLink",V.Local.iRunTime,"Cost",V.Local.fCost)
+				F.Intrinsic.Control.Else
+					V.Local.iIndex.Set(V.Local.sRet)
+					F.Data.DataTable.SetValue("dtRouter",V.Local.iIndex,"FlowID",V.Local.iFlow,"Flow",V.Local.sFlow,"OpID",V.Local.iOperation,"Operation",V.Local.sOperation,"ToolID",V.Local.sTool.Trim,"Tools",V.Local.sToolName,"RecipeID",V.Local.iRecipe,"Recipe",V.Local.sRecipe,"Description",V.Local.sDescription,"WaferID",V.Local.sWaferID.Trim,"TimeLink",V.Local.iRunTime,"Cost",V.Local.fCost)
+				F.Intrinsic.Control.EndIf
+				F.Intrinsic.Control.CallSub(clearlineentry)
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdSaveLine_Click.End
+
+Program.Sub.ClearLineEntry.Start
+V.Local.iStep.Declare
+Gui.F_Runsheet.ddlOperation.ClearItems
+Gui.F_Runsheet.ddlTool.ClearItems
+Gui.F_Runsheet.ddlRecipe.ClearItems
+Gui.F_Runsheet.txtDesc.Text("")
+Gui.F_Runsheet.txtWafer.Text("")
+F.Intrinsic.Control.If(V.DataTable.dtRouter.RowCount,>,0)
+	F.Intrinsic.Math.Add(V.DataTable.dtRouter(V.DataTable.dtRouter.RowCount--).Step!FieldVal,1,V.Local.iStep)
+F.Intrinsic.Control.Else
+	V.Local.iStep.Set(1)
+F.Intrinsic.Control.EndIf
+Gui.F_Runsheet.txtStep.Text(V.Local.iStep)
+Gui.F_Runsheet.txtStepAfter.Text("0")
+Program.Sub.ClearLineEntry.End
+
+Program.Sub.GsGCLine_RowCellClick.Start
+Gui.F_Runsheet.txtStep.Text(V.DataTable.dtRouter(V.Args.RowIndex).Step!FieldVal)
+Gui.F_Runsheet.txtDesc.Text(V.DataTable.dtRouter(V.Args.RowIndex).Description!FieldValTrim)
+Gui.F_Runsheet.txtWafer.Text(V.DataTable.dtRouter(V.Args.RowIndex).WaferID!FieldValTrim)
+Gui.F_Runsheet.ddlFlow.Text(V.DataTable.dtRouter(V.Args.RowIndex).Flow!FieldValTrim)
+F.Intrinsic.Control.CallSub(ddlflow_clicked)
+Gui.F_Runsheet.ddlOperation.Text(V.DataTable.dtRouter(V.Args.RowIndex).Operation!FieldValTrim)
+F.Intrinsic.Control.CallSub(ddloperation_clicked)
+Gui.F_Runsheet.ddlTool.Text(V.DataTable.dtRouter(V.Args.RowIndex).ToolID!FieldValTrim)
+F.Intrinsic.Control.CallSub(ddltool_clicked)
+Gui.F_Runsheet.ddlRecipe.Text(V.DataTable.dtRouter(V.Args.RowIndex).Recipe!FieldValTrim)
+Program.Sub.GsGCLine_RowCellClick.End
+
+Program.Sub.cmdDeleteLine_Click.Start
+V.Local.i1.Declare
+V.Local.iStep.Declare
+V.Local.sFilter.Declare
+V.Local.sRet.Declare
+V.Local.sSeq.Declare
+
+V.Local.iStep.Set(V.Screen.F_Runsheet!txtStep.Text)
+'Check if step is already part of the grid
+F.Intrinsic.String.Build("Step = {0}",V.Local.iStep,V.Local.sFilter)
+F.Data.DataTable.Select("dtRouter",V.Local.sFilter,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***NORETURN***")
+	'Delete the row and renumber the sequence/step
+	F.Data.DataTable.DeleteRow("dtRouter",V.Local.sRet)
+	F.Data.DataTable.AcceptChanges("dtRouter")
+	F.Intrinsic.UI.InvokeWaitDialog("Renumbering the sequences")
+	F.Intrinsic.Control.For(V.Local.i1,0,V.DataTable.dtRouter.RowCount--,1)
+		F.Intrinsic.Math.Add(V.Local.i1,1,V.Local.iStep)
+		F.Intrinsic.String.LPad(V.Local.iStep,"0",5,V.Local.sSeq)
+		F.Intrinsic.String.Concat(V.Local.sSeq,"0",V.Local.sSeq)
+		F.Data.DataTable.SetValue("dtRouter",V.Local.i1,"Seq",V.Local.sSeq,"Step",V.Local.iStep)
+	F.Intrinsic.Control.Next(V.Local.i1)
+	F.Intrinsic.UI.CloseWaitDialog
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdDeleteLine_Click.End
+
+Program.Sub.cmdInsert_Click.Start
+V.Local.fCost.Declare
+V.Local.i1.Declare
+V.Local.iFlow.Declare
+V.Local.iOperation.Declare
+V.Local.iRecipe.Declare
+V.Local.iRet.Declare
+V.Local.iRunTime.Declare
+V.Local.iStep.Declare
+V.Local.iStepMax.Declare
+V.Local.iStepNew.Declare
+V.Local.sDescription.Declare
+V.Local.sFilter.Declare
+V.Local.sFlow.Declare
+V.Local.sOperation.Declare
+V.Local.sRecipe.Declare
+V.Local.sRet.Declare
+V.Local.sSeq.Declare
+V.Local.sTool.Declare
+V.Local.sToolName.Declare
+V.Local.sWaferID.Declare
+
+V.Local.sFlow.Set(V.Screen.F_Runsheet!ddlFlow.Text)
+V.Local.sOperation.Set(V.Screen.F_Runsheet!ddlOperation.Text)
+V.Local.sTool.Set(V.Screen.F_Runsheet!ddlTool.Text)
+V.Local.sRecipe.Set(V.Screen.F_Runsheet!ddlRecipe.Text)
+V.Local.sDescription.Set(V.Screen.F_Runsheet!txtDesc.Text)
+V.Local.sWaferID.Set(V.Screen.F_Runsheet!txtWafer.Text)
+
+F.Intrinsic.Control.If(V.Local.sFlow.Trim,<>,"")
+	F.Intrinsic.Control.If(V.Local.sOperation.Trim,<>,"")
+		F.Intrinsic.Control.If(V.Local.sTool.Trim,<>,"")
+			F.Intrinsic.Control.If(V.Local.sRecipe.Trim,<>,"")
+
+				V.Local.iStep.Set(V.Screen.F_Runsheet!txtStepAfter.Text)
+				V.Local.iStepMax.Set(V.DataTable.dtRouter.RowCount)
+				F.Intrinsic.Control.If(V.Local.iStep,<,V.Local.iStepMax)
+					F.Intrinsic.String.Build("Step > {0}",V.Local.iStep,V.Local.sFilter)
+					F.Data.DataView.Create("dtRouter","dvAdj",22,V.Local.sFilter,"Step DESC")
+					'Renumber the steps after
+					F.Intrinsic.Control.For(V.Local.i1,0,V.DataView.dtRouter!dvAdj.RowCount--,1)
+						V.Local.iStepNew.Set(V.DataView.dtRouter!dvAdj(V.Local.i1).Step!FieldVal)
+						F.Intrinsic.Math.Add(V.Local.iStepNew,1,V.Local.iStepNew)
+						F.Intrinsic.String.LPad(V.Local.iStepNew,"0",5,V.Local.sSeq)
+						F.Intrinsic.String.Concat(V.Local.sSeq,"0",V.Local.sSeq)
+						F.Data.DataView.SetValue("dtRouter","dvAdj",V.Local.i1,"Seq",V.Local.sSeq,"Step",V.Local.iStepNew)
+					F.Intrinsic.Control.Next(V.Local.i1)
+					F.Data.DataView.Close("dtRouter","dvAdj")
+					F.Intrinsic.Math.Add(V.Local.iStep,1,V.Local.iStep)
+					Gui.F_Runsheet.txtStep.Text(V.Local.iStep)
+					F.Intrinsic.Control.CallSub(cmdsaveline_click)
+					
+					F.Intrinsic.Control.If(V.DataView.dtRouter!dvRouter.Exists,=,True)
+						F.Data.DataView.Close("dtRouter","dvRouter")
+					F.Intrinsic.Control.EndIf
+					Gui.F_Runsheet.GsGCLine.Visible(False)
+					F.Intrinsic.Control.CallSub(gridviewproperties)
+					Gui.F_Runsheet.GsGCLine.Visible(True)
+				F.Intrinsic.Control.Else
+					F.Intrinsic.UI.Msgbox("Do you want to insert as a new row?","",4,V.Local.iRet)
+					F.Intrinsic.Control.If(V.Local.iRet,=,6)
+						F.Intrinsic.Control.CallSub(cmdsaveline_click)
+					F.Intrinsic.Control.EndIf
+				F.Intrinsic.Control.EndIf
+			
+			F.Intrinsic.Control.EndIf
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdInsert_Click.End
+
+Program.Sub.cmdBrwPL_Click.Start
+V.Local.iWidths.Declare(Long)
+
+V.Local.sRet.Declare(String)
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare(String)
+
+F.Intrinsic.String.Split("Product Line*!*Description","*!*",V.Local.sTitles)
+F.Intrinsic.String.Split("1200*!*1700","*!*",V.Local.iWidths)
+
+V.Local.sSQL.Set("select product_line, product_line_name from v_product_line where product_line <> '' order by product_line")
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+F.Intrinsic.UI.Browser("Select a Product Line","conx",V.Local.sSQL,V.Local.sTitles,V.Local.iWidths,12500,10000,V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	
+	'Fill out the textboxes in Transfer From frame
+	Gui.F_Runsheet.txtPL.Text(V.Local.sRet(0).Trim)
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdBrwPL_Click.End
+
+Program.Sub.cmdBrwUM_Click.Start
+V.Local.iWidths.Declare(Long)
+
+V.Local.sRet.Declare(String)
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare(String)
+
+F.Intrinsic.String.Split("UM*!*Description","*!*",V.Local.sTitles)
+F.Intrinsic.String.Split("700*!*1700","*!*",V.Local.iWidths)
+
+V.Local.sSQL.Set("select code, descr from v_um_codes order by code")
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+F.Intrinsic.UI.Browser("Select a Unit of Measure","conx",V.Local.sSQL,V.Local.sTitles,V.Local.iWidths,12500,10000,V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	
+	'Fill out the textboxes in Transfer From frame
+	Gui.F_Runsheet.txtUM.Text(V.Local.sRet(0).Trim)
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdBrwUM_Click.End
+
+Program.Sub.txtPL_LostFocus.Start
+V.Local.sFilter.Declare
+V.Local.sPL.Declare
+V.Local.sRet.Declare
+
+V.Local.sPL.Set(V.Screen.F_Runsheet!txtPL.Text)
+F.Intrinsic.String.Build("PL = '{0}'",V.Local.sPL.Trim,V.Local.sFilter)
+F.Data.DataTable.Select("dtPL",V.Local.sFilter,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+	F.Intrinsic.Control.CallSub(cmdbrwpl_click)
+F.Intrinsic.Control.EndIf
+Program.Sub.txtPL_LostFocus.End
+
+Program.Sub.txtUM_LostFocus.Start
+V.Local.sFilter.Declare
+V.Local.sUM.Declare
+V.Local.sRet.Declare
+
+V.Local.sUM.Set(V.Screen.F_Runsheet!txtUM.Text)
+F.Intrinsic.String.Build("UM = '{0}'",V.Local.sUM.Trim,V.Local.sFilter)
+F.Data.DataTable.Select("dtUM",V.Local.sFilter,V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,=,"***NORETURN***")
+	F.Intrinsic.Control.CallSub(cmdbrwum_click)
+F.Intrinsic.Control.EndIf
+Program.Sub.txtUM_LostFocus.End
+
+Program.Sub.cmdBrwPart_Click.Start
+V.Local.iWidths.Declare(Long)
+
+V.Local.sRet.Declare(String)
+V.Local.sSQL.Declare
+V.Local.sTitles.Declare(String)
+
+F.Intrinsic.String.Split("Part*!*Description","*!*",V.Local.sTitles)
+F.Intrinsic.String.Split("1200*!*2000","*!*",V.Local.iWidths)
+
+V.Local.sSQL.Set("select i1.part, i1.description from v_inventory_mstr i1 left join v_inventory_mst2 i2 on i1.part = i2.part where i2.code_source = 'P' or i2.code_source = 'J' order by i1.part")
+
+F.Intrinsic.UI.SetBrowserHotTypeAhead(True)
+F.Intrinsic.UI.Browser("Select a Part Number","conx",V.Local.sSQL,V.Local.sTitles,V.Local.iWidths,12500,10000,V.Local.sRet)
+
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***CANCEL***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	
+	'Fill out the textboxes in Transfer From frame
+	Gui.F_Runsheet.txtPart.Text(V.Local.sRet(0).Trim)
+	Gui.F_Runsheet.txtPartDesc.Text(V.Local.sRet(1).Trim)
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdBrwPart_Click.End
+
+Program.Sub.txtPart_LostFocus.Start
+V.Local.sPart.Declare
+V.Local.sRet.Declare
+V.Local.sSQL.Declare
+
+V.Local.sPart.Set(V.Screen.F_Runsheet!txtPart.Text)
+F.Global.Inventory.GetPartInfo(V.Local.sPart,"",V.Local.sRet)
+F.Intrinsic.Control.If(V.Local.sRet,<>,"***NOPARTFOUND***")
+	F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+	Gui.F_Runsheet.txtPartDesc.Text(V.Local.sRet(1).Trim)
+F.Intrinsic.Control.Else
+	Gui.F_Runsheet.txtPartDesc.Text("")
+F.Intrinsic.Control.EndIf
+Program.Sub.txtPart_LostFocus.End
+
+Program.Sub.cmdUpdate_Click.Start
+V.Local.fRuntime.Declare
+
+V.Local.i1.Declare
+V.Local.iCheck.Declare
+V.Local.iLen.Declare
+
+V.Local.sDesc.Declare
+V.Local.sDesc1.Declare
+V.Local.sDesc2.Declare
+V.Local.sFilter.Declare
+V.Local.sFilterResult.Declare
+V.Local.sMapLab.Declare
+V.Local.sMapMat.Declare
+V.Local.sPart.Declare
+V.Local.sPartCost.Declare
+V.Local.sPartDesc.Declare
+V.Local.sPartUM.Declare
+V.Local.sPL.Declare
+V.Local.sRet.Declare
+V.Local.sRouter.Declare
+V.Local.sRouterDesc.Declare
+V.Local.sSQL.Declare
+V.Local.sTemp.Declare
+V.Local.sUM.Declare
+
+'Check that router is not blank
+V.Local.sRouter.Set(V.Screen.F_Runsheet!txtRouter.Text)
+F.Intrinsic.Control.If(V.Local.sRouter.Trim,<>,"")
+F.Intrinsic.Control.AndIf(V.DataTable.dtRouter.RowCount,>,0)
+	V.Local.sRouterDesc.Set(V.Screen.F_Runsheet!txtRouterDesc.Text)
+	'Check if PL is not blank and a valid one
+	V.Local.sPL.Set(V.Screen.F_Runsheet!txtPL.Text)
+	F.Intrinsic.Control.If(V.Local.sPL.Trim,<>,"")
+		'Check if it's a valid PL
+		F.Intrinsic.String.Build("PL = '{0}'",V.Local.sPL.Trim,V.Local.sFilter)
+		F.Data.DataTable.Select("dtPL",V.Local.sFilter,V.Local.sFilterResult)
+		F.Intrinsic.Control.If(V.Local.sFilterResult,=,"***NORETURN***")
+			F.Intrinsic.UI.Msgbox("Invalid PL")
+			F.Intrinsic.Control.ExitSub
+		F.Intrinsic.Control.EndIf
+		'Check if UM is not blank and a valid one
+		V.Local.sUM.Set(V.Screen.F_Runsheet!txtUM.Text)
+		F.Intrinsic.Control.If(V.Local.sUM.Trim,<>,"")
+			'Check if it's a valid UM
+			F.Intrinsic.String.Build("UM = '{0}'",V.Local.sPL.Trim,V.Local.sFilter)
+			F.Data.DataTable.Select("dtUM",V.Local.sFilter,V.Local.sFilterResult)
+			F.Intrinsic.Control.If(V.Local.sFilterResult,=,"***NORETURN***")
+				F.Intrinsic.UI.Msgbox("Invalid UM")
+				F.Intrinsic.Control.ExitSub
+			F.Intrinsic.Control.EndIf
+			F.Intrinsic.Control.Try
+				'DELETE THE EXISTING ROUTER AND ASSOCIATED DATA, then reload
+				f.Intrinsic.String.Build("delete from ROUTER_DESC where ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_HEADER where ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_LINE WHERE ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_OP_CODES WHERE ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_XREF WHERE ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_SUPP_HDR WHERE RTR_NUM ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM ROUTER_SUPP_LINE WHERE RTR_NUM ='{0}'",v.Local.sRouter.trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM RTR_SEQ_COMMENTS WHERE RTR_NUMBER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+				F.Intrinsic.String.Build("DELETE FROM GAB_4983_RTR_EXTRA WHERE ROUTER ='{0}'",v.Local.sRouter.Trim,V.Local.sSql)
+				F.ODBC.Connection!conx.EXECUTE(V.Local.sSql)
+
+				'MAP FOR LABOR RECORDS
+				f.Intrinsic.String.Build("{0}*!*{1}*!*{2}*!*{3}*!*{4}*!*{5}*!*{6}*!*{7}*!*{8}*!*{9}*!*{10}*!*{11}","RouterNum","RouterDesc","Seq","LineType","WC","PartStepDesc","RuntimeMatlQty","CustID","RateUC","UM","ExtraDesc1","ExtraDesc2",V.Local.sMapLab)
+				'MAP FOR OUTSIDE AND MATERIAL
+				F.Intrinsic.String.Build("{0}*!*{1}*!*{2}*!*{3}*!*{4}*!*{5}*!*{6}*!*{7}*!*{8}*!*{9}*!*{10}*!*{11}","RouterNum","RouterDesc","Seq","LineType","PartNum","PartStepDesc","RuntimeMatlQty","CustID","RateUC","UM","ExtraDesc1","ExtrDesc2",V.Local.sMapMat)
+				
+				V.Local.sPart.Set(V.Screen.F_Runsheet!txtPart.Text)
+				V.Local.sPartDesc.Set(V.Screen.F_Runsheet!txtPartDesc.Text)
+				F.Intrinsic.Control.If(V.Local.sPart.Trim,<>,"")
+					F.Global.Inventory.GetPartInfo(V.Local.sPart.Trim,"",V.Local.sRet)
+					F.Intrinsic.Control.If(V.Local.sRet,<>,"***NOPARTFOUND***")
+						F.Intrinsic.String.Split(V.Local.sRet,"*!*",V.Local.sRet)
+						V.Local.sPartUM.Set(V.Local.sRet(2))
+						V.Local.sPartCost.Set(V.Local.sRet(4))
+					F.Intrinsic.Control.Else
+						V.Local.sPartUM.Set("EA")
+						V.Local.sPartCost.Set("0.00")
+					F.Intrinsic.Control.EndIf
+					F.Data.DataTable.AddRow("6021","RouterNum",V.Local.sRouter.Trim,"RouterDesc",V.Local.sRouterDesc.Trim,"Seq","000001","LineType","M","PartNum",V.Local.sPart.Trim,"PartStepDesc",V.Local.sPartDesc.Trim,"RunTimeMatlQty","1.00","CustID","","RateUC",V.Local.sPartCost,"UM",V.Local.sPartUM,"PL",V.Local.sPL.Trim)
+				F.Intrinsic.Control.EndIf
+				
+				F.Data.DataTable.Create("dtComment",True)
+				F.Data.DataTable.AddColumn("dtComment","Seq","String")
+				F.Data.DataTable.AddColumn("dtComment","Text","String")
+				
+				F.Intrinsic.Control.For(V.Local.i1,0,V.DataTable.dtRouter.RowCount--,1)
+					'Convert runtime to hours
+					F.Intrinsic.Math.Div(V.DataTable.dtRouter(V.Local.i1).TimeLink!FieldVal,60,V.Local.fRuntime)
+					F.Intrinsic.Math.Round(V.Local.fRuntime,5,V.Local.fRuntime)
+					
+					F.Intrinsic.Control.If(V.DataTable.dtRouter(V.Local.i1).Description!FieldValTrim,<>,"")
+						F.Data.DataTable.AddRow("dtComment","Seq",V.DataTable.dtRouter(V.Local.i1).Seq!FieldValTrim,"Text",V.DataTable.dtRouter(V.Local.i1).Description!FieldValTrim)
+					F.Intrinsic.Control.EndIf
+
+					F.Data.DataTable.AddRow("6021","RouterNum",V.Local.sRouter.Trim,"RouterDesc",V.Local.sRouterDesc.Trim,"Seq",V.DataTable.dtRouter(V.Local.i1).Seq!FieldValTrim,"LineType","L","WC",V.DataTable.dtRouter(V.Local.i1).ToolID!FieldValTrim,"PartStepDesc",V.DataTable.dtRouter(V.Local.i1).Tools!FieldValTrim,"RunTimeMatlQty",V.Local.fRuntime,"CustID","","RateUC",V.DataTable.dtRouter(V.Local.i1).Cost!FieldVal,"UM","HR","PL",V.Local.sPL.Trim)
+				F.Intrinsic.Control.Next(V.Local.i1)
+				
+				F.Intrinsic.Control.CallSub(6021Sync)
+				
+				F.Intrinsic.Control.If(V.DataTable.dtComment.RowCount,>,0)
+					F.Intrinsic.Control.For(V.Local.i1,0,V.DataTable.dtComment.RowCount--,1)
+						F.Intrinsic.String.Build("insert into rtr_seq_comments(rtr_number, rtr_seq, text) values('{0}','{1}','{2}');",V.Local.sRouter.Trim,V.DataTable.dtComment(V.Local.i1).Seq!FieldValTrim,V.DataTable.dtComment(V.Local.i1).Text!FieldValTrim,V.Local.sSQL)
+						F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+					F.Intrinsic.Control.Next(V.Local.i1)
+				F.Intrinsic.Control.EndIf
+				F.Data.DataTable.Close("dtComment")
+				
+				F.Intrinsic.Control.For(V.Local.i1,0,V.DataTable.dtRouter.RowCount--,1)
+					F.Intrinsic.String.Build("insert into GAB_4983_RTR_EXTRA(router,line_router,flow,operation,recipe,wafer_id,user_1,user_2,cost,runtime) values('{0}','{1}',{2},{3},{4},'{5}','{6}','{7}',{8},{9});",V.Local.sRouter.Trim,V.DataTable.dtRouter(V.Local.i1).Seq!FieldValTrim,V.DataTable.dtRouter(V.Local.i1).FlowID!FieldVal,V.DataTable.dtRouter(V.Local.i1).OpID!FieldVal,V.DataTable.dtRouter(V.Local.i1).RecipeID!FieldVal,V.DataTable.dtRouter(V.Local.i1).WaferID!FieldValTrim,"","",V.DataTable.dtRouter(V.Local.i1).Cost!FieldVal,V.DataTable.dtRouter(V.Local.i1).TimeLink!FieldVal,V.Local.sSQL)
+					F.ODBC.Connection!conx.Execute(V.Local.sSQL)
+				F.Intrinsic.Control.Next(V.Local.i1)
+				
+				'Reset screen
+				F.Intrinsic.Control.For(V.Local.i1,V.DataTable.dtRouter.RowCount--,0,-1)
+					F.Data.DataTable.DeleteRow("dtRouter",V.Local.i1)
+				F.Intrinsic.Control.Next(V.Local.i1)
+				F.Data.DataTable.AcceptChanges("dtRouter")
+				Gui.F_Runsheet.txtPart.Text("")
+				Gui.F_Runsheet.txtPartDesc.Text("")
+				F.Intrinsic.Control.CallSub(clearlineentry)
+				Gui.F_Runsheet.frameLine.Enabled(False)
+				Gui.F_Runsheet.txtStepAfter.Text("")
+			F.Intrinsic.Control.Catch
+				F.Intrinsic.UI.Msgbox("There is a problem with the upload")
+				F.Intrinsic.Control.ExitSub
+			F.Intrinsic.Control.EndTry
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.EndIf
+F.Intrinsic.Control.EndIf
+Program.Sub.cmdUpdate_Click.End
+
+Program.Sub.Comments.Start
+${$0$}$Custom Runsheet for AMF to create Router$}$MHERTANTO$}$6/4/2018 1:39:50 PM$}$False
+${$3$}$0$}$$}$0$}$-1$}$$}$12:00:00 AM$}$This custom program is used when base currency used is different from the local currency and the local government enforces to show exchange rate to local currency for every invoice generated by the system.
+Program.Sub.Comments.End
